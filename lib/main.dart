@@ -1,15 +1,29 @@
+import 'package:cafebooking/constants/app_colors.dart';
+import 'package:cafebooking/screens/loginpage/login.dart';
 import 'package:flutter/material.dart';
 
-class MyApp extends StatefulWidget {
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return MaterialApp(
+      title: 'Hive Cafe',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: AppColors.primary,
+        scaffoldBackgroundColor: AppColors.backgroundLight,
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
+      home: const CafeLoginPage(),
+    );
   }
 }
