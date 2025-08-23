@@ -12,7 +12,7 @@ class CreateAccountButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSizes.r8),
+          borderRadius: BorderRadius.circular(AppSizes.r18),
         ),
         padding: const EdgeInsets.symmetric(vertical: AppSizes.p12),
       ),

@@ -10,7 +10,7 @@ class FullNameField extends StatelessWidget {
         labelText: "Full Name",
         hintText: "Enter your name",
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(30),
         ),
       ),
     );

@@ -29,7 +29,7 @@ class _RoleDropdownState extends State<RoleDropdown> {
       decoration: InputDecoration(
         labelText: "Role",
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(30),
         ),
       ),
     );
