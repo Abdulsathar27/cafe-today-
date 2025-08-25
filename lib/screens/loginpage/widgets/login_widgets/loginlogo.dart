@@ -1,5 +1,6 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/constants/app_sizes.dart';
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:flutter/material.dart';
 
 class LoginLogo extends StatelessWidget {
@@ -16,11 +17,11 @@ class LoginLogo extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         const Text(
-          "Cafe Today",
+          AppTexts.appName,
           style: TextStyle(fontSize: AppSizes.textXXL, fontWeight: FontWeight.bold),
         ),
         const Text(
-          "Welcome back!",
+          AppTexts.welcomeUser,
           style: TextStyle(color:AppColors.textSecondary),
         ),
       ],

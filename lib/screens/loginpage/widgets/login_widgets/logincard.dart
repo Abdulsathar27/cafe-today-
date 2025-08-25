@@ -1,5 +1,6 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/constants/app_sizes.dart';
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:cafebooking/screens/loginpage/widgets/login_widgets/emailfield.dart';
 import 'package:cafebooking/screens/loginpage/widgets/login_widgets/passwordfield.dart';
 import 'package:cafebooking/screens/loginpage/widgets/login_widgets/quickloginsection.dart';
@@ -29,7 +30,7 @@ class LoginCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: const [
           Text(
-            "Sign In",
+            AppTexts.sign,
             style: TextStyle(fontSize: AppSizes.textXL, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),

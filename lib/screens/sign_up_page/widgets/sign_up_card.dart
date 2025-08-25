@@ -1,5 +1,6 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/constants/app_sizes.dart';
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:cafebooking/screens/loginpage/widgets/login_widgets/emailfield.dart';
 import 'package:cafebooking/screens/loginpage/widgets/login_widgets/passwordfield.dart';
 import 'package:cafebooking/screens/sign_up_page/widgets/create_account_button.dart';
@@ -31,7 +32,7 @@ class SignUpCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: const [
           Text(
-            "Create Account",
+            AppTexts.createaccount,
             style: TextStyle(fontSize: AppSizes.textXL, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),

@@ -1,5 +1,6 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/constants/app_sizes.dart';
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:cafebooking/screens/loginpage/login.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class TopBar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(Icons.person),
-            const Text("Welcome back!",style: TextStyle(color: AppColors.accent),),
+            const Text(AppTexts.welcomeUser,style: TextStyle(color: AppColors.accent),),
             Text(userName, style: const TextStyle(fontWeight: FontWeight.bold,color: AppColors.accent)),
           ],
         ),

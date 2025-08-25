@@ -1,4 +1,5 @@
 import 'package:cafebooking/constants/app_colors.dart';
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:flutter/material.dart';
 
 class QuickLoginSection extends StatelessWidget {
@@ -18,7 +19,7 @@ class QuickLoginSection extends StatelessWidget {
               backgroundColor: AppColors.buttonPrimary,
               side: const BorderSide(color:AppColors.primary) 
             ),
-             child: const Text("Customer",style: TextStyle(fontWeight: FontWeight.bold),),),
+             child: const Text(AppTexts.customer1,style: TextStyle(fontWeight: FontWeight.bold),),),
             OutlinedButton(onPressed: () {},
             
             style: OutlinedButton.styleFrom(
@@ -26,7 +27,7 @@ class QuickLoginSection extends StatelessWidget {
               backgroundColor: AppColors.buttonPrimary,
               side: const BorderSide(color:AppColors.primary) 
             ),
-             child: const Text("Staff",style: TextStyle(fontWeight: FontWeight.bold),)),
+             child: const Text(AppTexts.staff,style: TextStyle(fontWeight: FontWeight.bold),)),
             OutlinedButton(onPressed: () {},
             
             style: OutlinedButton.styleFrom(
@@ -34,7 +35,7 @@ class QuickLoginSection extends StatelessWidget {
               backgroundColor: AppColors.buttonPrimary,
               side: const BorderSide(color:AppColors.primary) 
             ),
-             child: const Text("Admin",style: TextStyle(fontWeight: FontWeight.bold),)),
+             child: const Text(AppTexts.admin,style: TextStyle(fontWeight: FontWeight.bold),)),
             
           ],
         ),

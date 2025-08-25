@@ -1,5 +1,6 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/constants/app_sizes.dart';
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:cafebooking/screens/homepage/home.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class SignInButton extends StatelessWidget {
       },
       icon: const Icon(Icons.login, color: AppColors.backgroundLight),
       label: const Text(
-        "Sign In",
+        AppTexts.sign,
         style: TextStyle(
           color: AppColors.backgroundLight,
           fontSize: AppSizes.textM,

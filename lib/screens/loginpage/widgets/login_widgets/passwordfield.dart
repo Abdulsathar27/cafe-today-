@@ -1,3 +1,4 @@
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:flutter/material.dart';
 
 class PasswordField extends StatefulWidget {
@@ -15,8 +16,8 @@ class _PasswordFieldState extends State<PasswordField> {
     return TextField(
       obscureText: _obscurePassword,
       decoration: InputDecoration(
-        labelText: "Password",
-        hintText: "Enter your password",
+        labelText: AppTexts.password,
+        hintText: AppTexts.enterpassword,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),

@@ -1,3 +1,4 @@
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:flutter/material.dart';
 
 class RoleDropdown extends StatefulWidget {
@@ -8,8 +9,8 @@ class RoleDropdown extends StatefulWidget {
 }
 
 class _RoleDropdownState extends State<RoleDropdown> {
-  String selectedRole = "Customer";
-  final List<String> roles = ["Customer", "Staff", "Admin"];
+  String selectedRole = AppTexts.customer1;
+  final List<String> roles = [AppTexts.customer1, AppTexts.staff, AppTexts.admin];
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class _RoleDropdownState extends State<RoleDropdown> {
         });
       },
       decoration: InputDecoration(
-        labelText: "Role",
+        labelText: AppTexts.role,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),

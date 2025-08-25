@@ -1,5 +1,5 @@
 import 'package:cafebooking/constants/app_colors.dart';
-import 'package:cafebooking/screens/menupage/widgets/menulist.dart';
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:flutter/material.dart';
 
 class BrowseMenuButton extends StatelessWidget {
@@ -9,14 +9,14 @@ class BrowseMenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const MenuPage()),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const ()),
+        // );
       },
       icon: const Icon(Icons.local_cafe, color: AppColors.backgroundLight),
       label: const Text(
-        "Browse Menu",
+        AppTexts.browsemenu,
         style: TextStyle(color: AppColors.textWhite),
       ),
       style: ElevatedButton.styleFrom(

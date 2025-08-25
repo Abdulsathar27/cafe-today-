@@ -1,4 +1,5 @@
 import 'package:cafebooking/constants/app_colors.dart';
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:cafebooking/screens/loginpage/login.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class SignInLink extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Already have an account? "),
+        const Text(AppTexts.alreadyhaveanaccount),
         GestureDetector(
           onTap: () {
             Navigator.push(
@@ -19,7 +20,7 @@ class SignInLink extends StatelessWidget {
             );
           },
           child: Text(
-            "Sign in",
+            AppTexts.sign,
             style: TextStyle(
               color: AppColors.primary,
               fontWeight: FontWeight.bold,

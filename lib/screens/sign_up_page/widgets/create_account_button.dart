@@ -1,5 +1,6 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/constants/app_sizes.dart';
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:flutter/material.dart';
 
 
@@ -19,7 +20,7 @@ class CreateAccountButton extends StatelessWidget {
       onPressed: () {},
       icon: const Icon(Icons.person_add, color: AppColors.textWhite),
       label: const Text(
-        "Create Account",
+        AppTexts.createaccount,
         style: TextStyle(color: AppColors.textWhite),
       ),
     );

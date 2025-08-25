@@ -1,3 +1,4 @@
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:flutter/material.dart';
 
 class FullNameField extends StatelessWidget {
@@ -7,8 +8,8 @@ class FullNameField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       decoration: InputDecoration(
-        labelText: "Full Name",
-        hintText: "Enter your name",
+        labelText: AppTexts.fullname,
+        hintText: AppTexts.enteryourname,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),

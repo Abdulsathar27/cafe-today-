@@ -1,4 +1,5 @@
 import 'package:cafebooking/constants/app_colors.dart';
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:flutter/material.dart';
 class LogoSection extends StatelessWidget {
   const LogoSection({super.key});
@@ -9,13 +10,12 @@ class LogoSection extends StatelessWidget {
       children: const [
         Icon(Icons.coffee, size: 80, color: AppColors.primary),
         SizedBox(height: 10),
-        Text(
-          "Cafe Today",
+        Text(AppTexts.appName,
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        Text("Where every sip buzzes with flavor" ,style: TextStyle(color: AppColors.accent),),
+        Text(AppTexts.qoutes ,style: TextStyle(color: AppColors.accent),),
         SizedBox(height: 10,),
-        Text("Customer Portal",
+        Text(AppTexts.customerp,
             style: TextStyle(color: AppColors.accent)),
       ],
     );
