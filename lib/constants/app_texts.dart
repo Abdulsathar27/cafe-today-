@@ -26,6 +26,21 @@ class AppTexts {
   static const String fullname = "Full Name";
   static const String enteryourname = "Enter your name";
   static const String alreadyhaveanaccount = "Already have an account? ";
+  static const String accountInfo = "Account Information";
+  static const String name = "Name";
+  static const phone = "Phone";
+  static const String namePlaceholder = "John Customer";
+  static const emailPlaceholder = "customer@today.cafe";
+  static const phonePlaceholder = "Enter your phone";
+  static const String orderStats = "Order Statistics";
+  static const String orders = "Orders";
+  static const String spent = "Spent";
+  static const String zeroRupees = "₹0";
+  static const String zero = "0";
+  static const String edit = "Edit";
+  static const String logout = "Logout";
+  static const quickActions = "Quick Actions";
+  static const orderHistory = "Order History";
 
   //  Tabs
   static const String tabCoffee = "Coffee";
