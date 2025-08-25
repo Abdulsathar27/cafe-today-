@@ -14,9 +14,9 @@ class SignInLink extends StatelessWidget {
         const Text(AppTexts.alreadyhaveanaccount),
         GestureDetector(
           onTap: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const CafeLoginPage()),
+              MaterialPageRoute(builder: (context) => CafeLoginPage()),
             );
           },
           child: Text(

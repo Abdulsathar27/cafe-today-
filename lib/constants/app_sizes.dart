@@ -31,8 +31,10 @@ class AppSizes {
 
   // Font Sizes
   static const double textS = 12.0;
+  static const double textSs = 13.0;
   static const double textM = 14.0;
   static const double textL = 16.0;
+  static const double textLl = 18.0;
   static const double textXL = 20.0;
   static const double textXXL = 24.0;
 }

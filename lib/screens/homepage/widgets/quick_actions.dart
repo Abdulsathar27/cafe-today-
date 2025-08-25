@@ -1,6 +1,8 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/constants/app_sizes.dart';
 import 'package:cafebooking/constants/app_texts.dart';
+import 'package:cafebooking/screens/orders/orders_page.dart';
+import 'package:cafebooking/screens/profile/profilepage.dart';
 import 'package:flutter/material.dart';
 
 class QuickActions extends StatelessWidget {
@@ -10,26 +12,51 @@ class QuickActions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children:[
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(Icons.person, size: 30,color: AppColors.accent,),
-            SizedBox(height: 4,),
-            Text(AppTexts.profile,style: TextStyle(fontSize: AppSizes.textM,color: AppColors.accent),)
-          ],
+      children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfilePage()),
+            );
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Icon(Icons.person, size: 30, color: AppColors.accent),
+              SizedBox(height: 4),
+              Text(
+                AppTexts.profile,
+                style: TextStyle(
+                  fontSize: AppSizes.textM,
+                  color: AppColors.accent,
+                ),
+              ),
+            ],
+          ),
         ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children:const[
-            Icon(Icons.receipt_long, size: 30,color: AppColors.accent,),
-            SizedBox(height: 4,),
-            Text(AppTexts.orderNow,style: TextStyle(fontSize: AppSizes.textM,color: AppColors.accent),)
-          ],
-        )
-        
-        
-        
+        GestureDetector(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const OrdersPage()),
+            );
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Icon(Icons.receipt_long, size: 30, color: AppColors.accent),
+              SizedBox(height: 4),
+              Text(
+                AppTexts.orderNow,
+                style: TextStyle(
+                  fontSize: AppSizes.textM,
+                  color: AppColors.accent,
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

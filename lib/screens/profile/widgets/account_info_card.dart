@@ -1,4 +1,5 @@
 import 'package:cafebooking/constants/app_colors.dart';
+import 'package:cafebooking/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:cafebooking/constants/app_texts.dart';
 import 'section_shell.dart';
@@ -11,12 +12,12 @@ class AccountInfoCard extends StatelessWidget {
     return SectionShell(
       header: Row(
         children: [
-          const Icon(Icons.info_outline, size: 18),
+          const Icon(Icons.info_outline, size: AppSizes.iconS),
           const SizedBox(width: 8),
           Text(
             AppTexts.accountInfo,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: AppSizes.textM,
               fontWeight: FontWeight.w600,
               color: AppColors.sectionTitle,
             ),
@@ -31,7 +32,7 @@ class AccountInfoCard extends StatelessWidget {
             child: Text(
               AppTexts.customer1,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: AppSizes.textS,
                 fontWeight: FontWeight.w600,
                 color: AppColors.badgeText,
               ),
@@ -66,7 +67,7 @@ class _Label extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 6, left: 4),
       child: Text(
         text,
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+        style: const TextStyle(fontSize: AppSizes.textS, fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -91,11 +92,11 @@ class _ReadOnlyField extends StatelessWidget {
           vertical: 12,
         ),
         disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(color: AppColors.cardBorder),
         ),
       ),
-      style: TextStyle(color: AppColors.inputHint, fontSize: 13),
+      style: TextStyle(color: AppColors.inputHint, fontSize: AppSizes.textS),
     );
   }
 }

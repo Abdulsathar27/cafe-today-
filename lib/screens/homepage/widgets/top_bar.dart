@@ -25,7 +25,7 @@ class TopBar extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const CafeLoginPage() ));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CafeLoginPage() ));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

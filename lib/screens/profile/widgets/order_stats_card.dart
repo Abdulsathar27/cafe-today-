@@ -1,4 +1,5 @@
 import 'package:cafebooking/constants/app_colors.dart';
+import 'package:cafebooking/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:cafebooking/constants/app_texts.dart';
 import 'section_shell.dart';
@@ -11,12 +12,12 @@ class OrderStatsCard extends StatelessWidget {
     return SectionShell(
       header: Row(
         children: [
-          const Icon(Icons.access_time, size: 18),
+          const Icon(Icons.access_time, size: AppSizes.iconS),
           const SizedBox(width: 8),
           Text(
             AppTexts.orderStats,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: AppSizes.textM,
               fontWeight: FontWeight.w600,
               color: AppColors.sectionTitle,
             ),
@@ -62,9 +63,9 @@ class _StatTile extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+            Text(value, style: const TextStyle(fontSize:AppSizes.textLl, fontWeight: FontWeight.w700)),
             const SizedBox(height: 2),
-            Text(label, style: const TextStyle(fontSize: 12)),
+            Text(label, style: const TextStyle(fontSize: AppSizes.textS)),
           ],
         ),
       ),
