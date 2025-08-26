@@ -1,4 +1,6 @@
 import 'package:cafebooking/constants/app_colors.dart';
+import 'package:cafebooking/screens/homepage/home.dart';
+import 'package:cafebooking/screens/menu/menu_page.dart';
 import 'package:flutter/material.dart';
 import 'widgets/orders_tabs.dart';
 
@@ -90,13 +92,20 @@ class _OrdersPageState extends State<OrdersPage> {
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
-                          // TODO: navigate to Menu page
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MenuPage(),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.buttonPrimary,
                           foregroundColor: AppColors.buttonText,
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 10),
+                            horizontal: 16,
+                            vertical: 10,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6),
                           ),
@@ -126,7 +135,7 @@ class _BackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
-      onPressed: () => Navigator.maybePop(context),
+      onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage())),
       splashRadius: 22,
     );
   }

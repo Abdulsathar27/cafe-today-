@@ -1,5 +1,6 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/constants/app_sizes.dart';
+import 'package:cafebooking/screens/homepage/home.dart';
 import 'package:cafebooking/screens/loginpage/login.dart';
 import 'package:flutter/material.dart';
 import 'package:cafebooking/constants/app_texts.dart';
@@ -16,7 +17,7 @@ class ProfileAppBar extends StatelessWidget {
           // Back arrow
           IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.maybePop(context),
+            onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage())),
           ),
           const SizedBox(width: 4),
           // Title centered-ish visually like screenshot
