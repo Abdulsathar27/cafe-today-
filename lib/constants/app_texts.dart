@@ -1,6 +1,6 @@
 class AppTexts {
   //  General
-  static const String appName = "CafeToday";
+  static const String appName = "Cafe2day";
   static const String welcomeUser = "Welcome back";
   static const String orderNow = "Order Now";
   static const String priceLabel = "Price";

@@ -1,6 +1,7 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/constants/app_texts.dart';
 import 'package:cafebooking/screens/loginpage/login.dart';
+import 'package:cafebooking/screens/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,7 +25,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const CafeLoginPage(),
+      home: SplashPage(
+        nextPage: CafeLoginPage(),            // <- change to your next screen
+        // duration: Duration(seconds: 3), // optional: custom time
+      ),
     );
   }
 }
