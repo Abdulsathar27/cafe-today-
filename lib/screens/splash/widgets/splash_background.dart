@@ -1,5 +1,5 @@
-import 'package:cafebooking/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:cafebooking/constants/app_colors.dart';
 
 class SplashBackground extends StatelessWidget {
   const SplashBackground({super.key});
@@ -8,11 +8,7 @@ class SplashBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.primary,],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
+        color: AppColors.primary, 
       ),
     );
   }

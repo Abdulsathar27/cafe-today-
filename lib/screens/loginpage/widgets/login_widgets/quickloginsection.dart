@@ -20,14 +20,7 @@ class QuickLoginSection extends StatelessWidget {
               side: const BorderSide(color:AppColors.primary) 
             ),
              child: const Text(AppTexts.customer1,style: TextStyle(fontWeight: FontWeight.bold),),),
-            OutlinedButton(onPressed: () {},
             
-            style: OutlinedButton.styleFrom(
-              foregroundColor:AppColors.backgroundLight,
-              backgroundColor: AppColors.buttonPrimary,
-              side: const BorderSide(color:AppColors.primary) 
-            ),
-             child: const Text(AppTexts.staff,style: TextStyle(fontWeight: FontWeight.bold),)),
             OutlinedButton(onPressed: () {},
             
             style: OutlinedButton.styleFrom(

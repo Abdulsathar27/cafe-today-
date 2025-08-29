@@ -1,4 +1,5 @@
 import 'package:cafebooking/constants/app_colors.dart';
+import 'package:cafebooking/screens/checkout/checkout_page.dart';
 import 'package:flutter/material.dart';
 
 class CartSummary extends StatelessWidget {
@@ -62,10 +63,7 @@ class CartSummary extends StatelessWidget {
               ),
               Text(
                 '₹0',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: AppColors.textSecondary,
-                ),
+                style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
               ),
             ],
           ),
@@ -97,7 +95,10 @@ class CartSummary extends StatelessWidget {
             height: 40,
             child: ElevatedButton(
               onPressed: () {
-                // TODO: checkout flow
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CheckoutPage()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.buttonPrimary,
@@ -109,10 +110,7 @@ class CartSummary extends StatelessWidget {
               ),
               child: const Text(
                 'Proceed to Checkout',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                ),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
               ),
             ),
           ),

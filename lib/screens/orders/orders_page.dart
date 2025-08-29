@@ -1,5 +1,5 @@
 import 'package:cafebooking/constants/app_colors.dart';
-import 'package:cafebooking/screens/homepage/home.dart';
+import 'package:cafebooking/screens/checkout/checkout_page.dart';
 import 'package:cafebooking/screens/menu/menu_page.dart';
 import 'package:flutter/material.dart';
 import 'widgets/orders_tabs.dart';
@@ -135,7 +135,7 @@ class _BackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
-      onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage())),
+      onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CheckoutPage())),
       splashRadius: 22,
     );
   }

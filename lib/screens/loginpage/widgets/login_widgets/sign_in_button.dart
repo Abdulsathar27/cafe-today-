@@ -1,7 +1,7 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/constants/app_sizes.dart';
 import 'package:cafebooking/constants/app_texts.dart';
-import 'package:cafebooking/screens/homepage/home.dart';
+import 'package:cafebooking/screens/menu/menu_page.dart';
 import 'package:flutter/material.dart';
 
 class SignInButton extends StatelessWidget {
@@ -18,7 +18,7 @@ class SignInButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
+          MaterialPageRoute(builder: (context) => const MenuPage()),
         );
       },
       icon: const Icon(Icons.login, color: AppColors.backgroundLight),

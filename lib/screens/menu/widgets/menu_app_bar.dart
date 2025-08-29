@@ -1,6 +1,5 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/screens/cartpage/cart_page.dart';
-import 'package:cafebooking/screens/homepage/home.dart';
 import 'package:cafebooking/screens/profile/profilepage.dart';
 import 'package:flutter/material.dart';
 
@@ -13,14 +12,6 @@ class MenuAppBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
       child: Row(
         children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            splashRadius: 22,
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            ),
-          ),
           const SizedBox(width: 4),
           const Expanded(
             child: Text(
