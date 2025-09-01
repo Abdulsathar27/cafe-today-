@@ -1,52 +1,44 @@
-import 'package:cafebooking/constants/app_colors.dart';
-import 'package:cafebooking/constants/app_sizes.dart';
-import 'package:cafebooking/constants/app_texts.dart';
-import 'package:cafebooking/screens/loginpage/widgets/login_widgets/emailfield.dart';
-import 'package:cafebooking/screens/loginpage/widgets/login_widgets/passwordfield.dart';
-import 'package:cafebooking/screens/loginpage/widgets/login_widgets/quickloginsection.dart';
-import 'package:cafebooking/screens/loginpage/widgets/login_widgets/sign_in_button.dart';
-import 'package:cafebooking/screens/loginpage/widgets/login_widgets/signuplink.dart';
 import 'package:flutter/material.dart';
+import 'emailfield.dart';
+import 'passwordfield.dart';
+import 'sign_in_button.dart';
+import 'signuplink.dart';
+import 'quickloginsection.dart';
 
-class LoginCard extends StatelessWidget {
+class LoginCard extends StatefulWidget {
   const LoginCard({super.key});
 
   @override
+  State<LoginCard> createState() => _LoginCardState();
+}
+
+class _LoginCardState extends State<LoginCard> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color:AppColors.textWhite,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color:AppColors.textPrimary,
-            blurRadius: 6,
-            offset: Offset(0, 3),
-          )
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const [
-          Text(
-            AppTexts.sign,
-            style: TextStyle(fontSize: AppSizes.textXL, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 16),
-          EmailField(),
-          SizedBox(height: 16),
-          PasswordField(),
-          SizedBox(height: 20),
-          SignInButton(),
-          SizedBox(height: 12),
-          SignUpLink(),
-          SizedBox(height: 16),
-          Divider(),
-          SizedBox(height: 8),
-          QuickLoginSection(),
-        ],
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            EmailField(controller: _emailController),
+            const SizedBox(height: 12),
+            PasswordField(controller: _passwordController),
+            const SizedBox(height: 20),
+            SignInButton(
+              emailController: _emailController,
+              passwordController: _passwordController,
+            ),
+            const SizedBox(height: 12),
+            const SignUpLink(),
+            const SizedBox(height: 12),
+            const QuickLoginSection(),
+          ],
+        ),
       ),
     );
   }

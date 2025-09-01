@@ -1,54 +1,51 @@
-import 'package:cafebooking/constants/app_colors.dart';
-import 'package:cafebooking/constants/app_sizes.dart';
-import 'package:cafebooking/constants/app_texts.dart';
+import 'package:flutter/material.dart';
+import 'full_name_field.dart';
 import 'package:cafebooking/screens/loginpage/widgets/login_widgets/emailfield.dart';
 import 'package:cafebooking/screens/loginpage/widgets/login_widgets/passwordfield.dart';
-import 'package:cafebooking/screens/sign_up_page/widgets/create_account_button.dart';
-import 'package:cafebooking/screens/sign_up_page/widgets/full_name_field.dart';
-import 'package:cafebooking/screens/sign_up_page/widgets/role_dropdown.dart';
-import 'package:cafebooking/screens/sign_up_page/widgets/sign_in_link.dart';
-import 'package:flutter/material.dart';
+import 'create_account_button.dart';
+import 'role_dropdown.dart';
+import 'sign_in_link.dart';
 
-
-class SignUpCard extends StatelessWidget {
+class SignUpCard extends StatefulWidget {
   const SignUpCard({super.key});
 
   @override
+  State<SignUpCard> createState() => _SignUpCardState();
+}
+
+class _SignUpCardState extends State<SignUpCard> {
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  String? _selectedRole; // if you want to save role also
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AppSizes.p24),
-      decoration: BoxDecoration(
-        color: AppColors.textWhite,
-        borderRadius: BorderRadius.circular(AppSizes.r12),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.borderLight,
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          )
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const [
-          Text(
-            AppTexts.createaccount,
-            style: TextStyle(fontSize: AppSizes.textXL, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: AppSizes.p16),
-          FullNameField(),
-          SizedBox(height: AppSizes.p16),
-          EmailField(),
-          SizedBox(height: AppSizes.p16),
-          PasswordField(),
-          SizedBox(height: AppSizes.p16),
-          RoleDropdown(),
-          SizedBox(height: AppSizes.p20),
-          CreateAccountButton(),
-          SizedBox(height: AppSizes.p12),
-          SignInLink(),
-        ],
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            FullNameField(controller: _fullNameController),
+            const SizedBox(height: 12),
+            EmailField(controller: _emailController),
+            const SizedBox(height: 12),
+            PasswordField(controller: _passwordController),
+            const SizedBox(height: 12),
+            RoleDropdown(onChanged: (role) => setState(() => _selectedRole = role)),
+            const SizedBox(height: 20),
+            CreateAccountButton(
+              fullNameController: _fullNameController,
+              emailController: _emailController,
+              passwordController: _passwordController,
+              role: _selectedRole,
+            ),
+            const SizedBox(height: 12),
+            const SignInLink(),
+          ],
+        ),
       ),
     );
   }

@@ -1,38 +1,31 @@
-import 'package:cafebooking/constants/app_texts.dart';
+import 'package:cafebooking/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class RoleDropdown extends StatefulWidget {
-  const RoleDropdown({super.key});
+class RoleDropdown extends StatelessWidget {
+  final ValueChanged<String?> onChanged;
 
-  @override
-  State<RoleDropdown> createState() => _RoleDropdownState();
-}
-
-class _RoleDropdownState extends State<RoleDropdown> {
-  String selectedRole = AppTexts.customer1;
-  final List<String> roles = [AppTexts.customer1, AppTexts.staff, AppTexts.admin];
+  const RoleDropdown({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      value: selectedRole,
-      items: roles.map((role) {
-        return DropdownMenuItem(
-          value: role,
-          child: Text(role),
-        );
-      }).toList(),
-      onChanged: (value) {
-        setState(() {
-          selectedRole = value!;
-        });
-      },
       decoration: InputDecoration(
-        labelText: AppTexts.role,
-        border: OutlineInputBorder(
+        labelText: "Role",
+        prefixIcon: const Icon(Icons.work),
+         border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30), // rounded corners
+        ),
+       
+        focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
+          borderSide: const BorderSide(color: AppColors.backgroundDark, width: 2), // active border
         ),
       ),
+      items: const [
+        DropdownMenuItem(value: "Customer", child: Text("Customer")),
+        DropdownMenuItem(value: "Admin", child: Text("Admin")),
+      ],
+      onChanged: onChanged,
     );
   }
 }
