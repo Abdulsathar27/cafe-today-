@@ -1,50 +1,41 @@
-import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/screens/cartpage/cart_page.dart';
 import 'package:cafebooking/screens/profile/profilepage.dart';
 import 'package:flutter/material.dart';
 
-class MenuAppBar extends StatelessWidget {
+class MenuAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MenuAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-      child: Row(
-        children: [
-          const SizedBox(width: 4),
-          const Expanded(
-            child: Text(
-              'Menu',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
-              ),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.shopping_cart_outlined),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const CartPage()),
-              );
-            },
-            splashRadius: 20,
-          ),
-          IconButton(
-            icon: const Icon(Icons.person_outline),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilePage()),
-              );
-            },
-            splashRadius: 20,
-          ),
-        ],
+    return AppBar(
+      title: const Text("Menu"),
+      centerTitle: true,
+      backgroundColor: Colors.orange,
+      leading: IconButton(
+        icon: const Icon(Icons.person_2_outlined), // 👈 Profile icon
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const ProfilePage()), // replace with your ProfilePage
+            (route) => false, // remove all previous routes
+          );
+        },
       ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.shopping_cart_checkout_outlined), // 👈 Cart icon
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const CartPage()), // replace with your CartPage
+              (route) => false, // remove all previous routes
+            );
+          },
+        ),
+      ],
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

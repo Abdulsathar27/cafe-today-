@@ -1,4 +1,5 @@
-import 'package:cafebooking/constants/app_colors.dart';
+import 'package:cafebooking/constants/app_sizes.dart';
+import 'package:cafebooking/constants/app_texts.dart';
 import 'package:flutter/material.dart';
 
 class MenuHeader extends StatelessWidget {
@@ -7,24 +8,13 @@ class MenuHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: RichText(
-        text: TextSpan(
-          text: 'Hi, ',
-          style: const TextStyle(
-            fontSize: 14,
-            color: AppColors.textSecondary,
-          ),
-          children: [
-            TextSpan(
-              text: userName,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
-              ),
-            ),
-          ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          "${AppTexts.welcomeUser}, $userName 👋",
+          style: const TextStyle(fontSize:AppSizes.textXL, fontWeight: FontWeight.bold),
         ),
       ),
     );

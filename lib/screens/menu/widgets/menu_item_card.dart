@@ -1,91 +1,122 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'menu_grid.dart';
+import 'package:hive/hive.dart';
+import 'package:cafebooking/models/menu_item.dart';
+import 'package:cafebooking/models/cart_item.dart';
 
 class MenuItemCard extends StatelessWidget {
-  final MenuItemVm vm;
-  const MenuItemCard({super.key, required this.vm});
+  final MenuItem menuItem;
+  const MenuItemCard({super.key, required this.menuItem});
+
+  void _addToCart(BuildContext context) {
+    try {
+      final cartBox = Hive.box<CartItem>('cartBox');
+
+      // check if item already exists
+      final existingIndex = cartBox.values.toList().indexWhere(
+        (cartItem) => cartItem.menuItem.id == menuItem.id,
+      );
+
+      if (existingIndex != -1) {
+        // already in cart → increase quantity
+        final existing = cartBox.getAt(existingIndex);
+        if (existing != null) {
+          cartBox.putAt(
+            existingIndex,
+            CartItem(
+              menuItem: existing.menuItem,
+              quantity: existing.quantity + 1,
+            ),
+          );
+        }
+      } else {
+        // add new item
+        cartBox.add(CartItem(menuItem: menuItem));
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.buttonPrimary,
+          behavior: SnackBarBehavior.fixed,
+          margin: const EdgeInsets.all(16),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          ),
+          content: Text("${menuItem.title} added to cart"),
+          duration: const Duration(seconds: 1),
+        ),
+      );
+    } catch (e) {
+      // fallback in case Hive isn't ready
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.buttonPrimary,
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          content: const Text("Something went wrong while adding to cart"),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0,
-      color: AppColors.badgeBg,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: AppColors.cardBorder),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      clipBehavior: Clip.antiAlias, // ✅ clip image to rounded corners
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch, // ✅ make children full width
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ✅ image takes all remaining height & full width
+          // 📌 Image
           Expanded(
-            child: SizedBox.expand(
+            child: ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
               child: Image.asset(
-                vm.imageUrl,
-                fit: BoxFit.cover, // ✅ cover the box fully
-                alignment: Alignment.center,
+                menuItem.imageUrl,
+                fit: BoxFit.cover,
+                width: double.infinity,
               ),
             ),
           ),
 
-          // bottom content
-          Container(
-            color: AppColors.badgeBg,
-            padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+          // 📌 Title
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              menuItem.title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+
+          // 📌 Description
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              menuItem.description,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+
+          // 📌 Price + Add Button
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  vm.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 13.5,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  vm.description,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Text(
-                      '₹${vm.price}',
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
-                      ),
+                Text("₹${menuItem.price}"),
+                ElevatedButton(
+                  onPressed: () => _addToCart(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    const Spacer(),
-                    SizedBox(
-                      height: 30,
-                      child: ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.add, size: 16),
-                        label: const Text('Add', style: TextStyle(fontWeight: FontWeight.w600)),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.buttonPrimary,
-                          foregroundColor: AppColors.buttonText,
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                          elevation: 0,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
+                  child: const Text("Add"),
                 ),
               ],
             ),

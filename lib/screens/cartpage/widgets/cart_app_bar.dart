@@ -2,42 +2,50 @@ import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/screens/menu/menu_page.dart';
 import 'package:flutter/material.dart';
 
-class CartAppBar extends StatelessWidget {
-  final int itemCount;
-  const CartAppBar({super.key, required this.itemCount});
+class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const CartAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-      child: Row(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MenuPage())),
-            splashRadius: 22,
-          ),
-          const SizedBox(width: 8),
-          const Expanded(
-            child: Text(
-              'Cart',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
-              ),
-            ),
-          ),
-          Text(
-            '$itemCount Item${itemCount > 1 ? "s" : ""}',
-            style: const TextStyle(
-              fontSize: 13,
-              color: AppColors.textSecondary,
-            ),
-          ),
-          const SizedBox(width: 12),
-        ],
+    return AppBar(
+      title: const Text("Your Cart"),
+      centerTitle: true,
+      backgroundColor: AppColors.primary,
+
+      // 🔙 Back button on the left
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const MenuPage()), 
+            (route) => false, // remove all previous routes
+          );
+        },
       ),
+
+      // ✅ Checkout button on the right
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.check),
+          onPressed: () {
+            // 👉 TODO: Navigate to checkout page or trigger checkout logic
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: AppColors.buttonPrimary,
+              behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+                content: const Text("Proceeding to Checkout...")),
+            );
+          },
+        ),
+      ],
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

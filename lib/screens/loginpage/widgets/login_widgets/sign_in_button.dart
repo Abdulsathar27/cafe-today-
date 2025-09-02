@@ -26,7 +26,7 @@ class SignInButton extends StatelessWidget {
         (route) => false,
       );
     } else {
-      // 🎨 Creative snackbar with colors + icon
+     
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.buttonPrimary,
@@ -56,8 +56,8 @@ class SignInButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary, // button background
-        foregroundColor: AppColors.textWhite, // button text color
+        backgroundColor: AppColors.buttonPrimary, 
+        foregroundColor: AppColors.textWhite, 
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),

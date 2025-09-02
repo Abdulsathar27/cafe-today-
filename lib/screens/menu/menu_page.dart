@@ -1,9 +1,10 @@
-import 'package:cafebooking/constants/app_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:cafebooking/models/menu_item.dart';
 import 'package:cafebooking/screens/menu/widgets/menu_app_bar.dart';
-import 'package:cafebooking/screens/menu/widgets/menu_grid.dart';
 import 'package:cafebooking/screens/menu/widgets/menu_header.dart';
 import 'package:cafebooking/screens/menu/widgets/menu_tabs.dart';
-import 'package:flutter/material.dart';
+import 'package:cafebooking/screens/menu/widgets/menu_grid.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -13,58 +14,69 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  int selectedTab = 0; // 0..n
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [AppColors.gradientTop, AppColors.gradientBottom],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+    final menuBox = Hive.box<MenuItem>('menuBox');
+
+    // ✅ preload sample data if empty
+    if (menuBox.isEmpty) {
+      menuBox.addAll([
+        MenuItem(
+          id: "1",
+          title: "Cappuccino",
+          description: "Rich espresso with steamed milk foam",
+          imageUrl: "assets/Images/Cappuccino.png",
+          price: 120,
         ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              const MenuAppBar(),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 4, 16, 8),
-                child: MenuHeader(userName: 'John!'),
+        MenuItem(
+          id: "2",
+          title: "Green Tea",
+          description: "Refreshing organic green tea",
+          imageUrl: "assets/Images/green tea.png",
+          price: 60,
+        ),
+        MenuItem(
+          id: "3",
+          title: "Latte",
+          description: "Smooth blend of coffee and milk",
+          imageUrl: "assets/Images/latte.png",
+          price: 150,
+        ),
+      ]);
+    }
+
+    return Scaffold(
+      appBar: const MenuAppBar(),
+      backgroundColor: Colors.orange[50],
+      body: SafeArea(
+        child: Column(
+          children: [
+            const MenuHeader(userName:""),
+            MenuTabs(
+              selectedIndex: _selectedIndex,
+              onChanged: (int value) {
+                setState(() {
+                  _selectedIndex = value;
+                });
+              },
+            ),
+            Expanded(
+              child: ValueListenableBuilder(
+                valueListenable: menuBox.listenable(),
+                builder: (context, Box<MenuItem> box, _) {
+                  final items = box.values.whereType<MenuItem>().toList();
+
+                  if (items.isEmpty) {
+                    return const Center(child: Text("No menu items available"));
+                  }
+
+                  return MenuGrid(menuItems: items);
+                },
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                child: MenuTabs(
-                  selectedIndex: selectedTab,
-                  onChanged: (i) => setState(() => selectedTab = i),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: MenuGrid(
-                    // In a real app, filter by selectedTab
-                    items: const [
-                      MenuItemVm(
-                        imageUrl: 'assets/Images/Cappuccino.png',
-                        title: 'Cappuccino',
-                        description: 'Rich espresso with steamed milk foam',
-                        price: 120,
-                      ),
-                      MenuItemVm(
-                        imageUrl: 'assets/Images/green tea.png',
-                        title: 'Green Tea',
-                        description: 'Refreshing organic green tea',
-                        price: 60,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
