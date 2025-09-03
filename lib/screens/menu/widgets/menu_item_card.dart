@@ -37,7 +37,7 @@ class MenuItemCard extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.buttonPrimary,
-          behavior: SnackBarBehavior.fixed,
+          behavior: SnackBarBehavior.floating,
           margin: const EdgeInsets.all(16),
           shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -54,7 +54,7 @@ class MenuItemCard extends StatelessWidget {
           behavior: SnackBarBehavior.floating,
           margin: const EdgeInsets.all(16),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12),
           ),
           content: const Text("Something went wrong while adding to cart"),
         ),
@@ -110,8 +110,8 @@ class MenuItemCard extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () => _addToCart(context),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    foregroundColor: Colors.white,
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: AppColors.textWhite,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

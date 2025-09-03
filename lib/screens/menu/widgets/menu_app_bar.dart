@@ -1,3 +1,4 @@
+import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/screens/cartpage/cart_page.dart';
 import 'package:cafebooking/screens/profile/profilepage.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class MenuAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: const Text("Menu"),
       centerTitle: true,
-      backgroundColor: Colors.orange,
+      backgroundColor: AppColors.primary,
       leading: IconButton(
         icon: const Icon(Icons.person_2_outlined), // 👈 Profile icon
         onPressed: () {

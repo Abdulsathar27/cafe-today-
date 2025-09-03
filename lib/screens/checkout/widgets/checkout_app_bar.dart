@@ -1,62 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:cafebooking/constants/app_colors.dart';
+import 'package:cafebooking/screens/cartpage/cart_page.dart'; // ✅ import your CartPage
 
-class CheckoutAppBar extends StatelessWidget {
+class CheckoutAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CheckoutAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(4, 0, 4, 8),
-      child: Column(
-        children: const [
-          _TopRow(),
-          SizedBox(height: 2),
-          Text(
-            'Complete your order',
-            style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
-          ),
-        ],
+    return AppBar(
+      title: const Text("Checkout"),
+      centerTitle: true,
+      backgroundColor: AppColors.buttonText, // ✅ use app color
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const CartPage()),
+            (route) => false, // ✅ removes all previous pages
+          );
+        },
       ),
     );
   }
-}
-
-class _TopRow extends StatelessWidget {
-  const _TopRow();
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: const [
-        _BackBtn(),
-        SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            'Checkout',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
-            ),
-          ),
-        ),
-        SizedBox(width: 48), // balance the back button width for visual center
-      ],
-    );
-  }
-}
-
-class _BackBtn extends StatelessWidget {
-  const _BackBtn();
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.arrow_back),
-      splashRadius: 22,
-      onPressed: () => Navigator.maybePop(context),
-    );
-  }
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

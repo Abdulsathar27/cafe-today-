@@ -23,31 +23,30 @@ class CheckoutPage extends StatelessWidget {
         child: SafeArea(
           child: Stack(
             children: [
-              // Content
+              // 📌 Content scrollable
               Positioned.fill(
-                bottom: 72, // leave space for bottom bar
+                bottom: 72, // space for bottom bar
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
                   child: Column(
                     children: const [
-                      CheckoutAppBar(),
+                      CheckoutAppBar(),   // ✅ safe back button
                       SizedBox(height: 12),
-                      OrderSummaryCard(),
+                      OrderSummaryCard(), // ✅ shows cart dynamically
                       SizedBox(height: 12),
-                      AddressCard(),
+                      AddressCard(),      // ✅ pick delivery address
                       SizedBox(height: 12),
-                      PaymentMethodCard(),
+                      PaymentMethodCard(),// ✅ pick payment method
                       SizedBox(height: 8),
                     ],
                   ),
                 ),
               ),
-              // Bottom bar (fixed)
+
+              // 📌 Bottom bar (fixed)
               const Align(
                 alignment: Alignment.bottomCenter,
-                child: CheckoutBottomBar(
-                  amount: 473, // matches screenshot
-                ),
+                child: CheckoutBottomBar(), // ✅ handles order placing
               ),
             ],
           ),
