@@ -3,8 +3,8 @@ import 'menu_item.dart';
 
 part 'cart_item.g.dart';
 
-@HiveType(typeId: 1) // 👈 make sure typeId is unique across all your Hive models
-class CartItem extends HiveObject { // 👈 extend HiveObject
+@HiveType(typeId: 1) 
+class CartItem extends HiveObject { 
   @HiveField(0)
   final MenuItem menuItem;
 

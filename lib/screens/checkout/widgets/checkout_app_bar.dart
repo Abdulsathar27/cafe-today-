@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cafebooking/constants/app_colors.dart';
-import 'package:cafebooking/screens/cartpage/cart_page.dart'; // ✅ import your CartPage
+import 'package:cafebooking/screens/cartpage/cart_page.dart'; 
 
 class CheckoutAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CheckoutAppBar({super.key});
@@ -10,14 +10,14 @@ class CheckoutAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: const Text("Checkout"),
       centerTitle: true,
-      backgroundColor: AppColors.buttonText, // ✅ use app color
+      backgroundColor: AppColors.buttonText, 
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
         onPressed: () {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => const CartPage()),
-            (route) => false, // ✅ removes all previous pages
+            (route) => false, 
           );
         },
       ),

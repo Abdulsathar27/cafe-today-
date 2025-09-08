@@ -11,7 +11,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // top-left back arrow area is part of the custom app bar
+     
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

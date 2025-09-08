@@ -13,12 +13,12 @@ class RoleDropdown extends StatelessWidget {
         labelText: "Role",
         prefixIcon: const Icon(Icons.work),
          border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30), // rounded corners
+          borderRadius: BorderRadius.circular(30), 
         ),
        
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: const BorderSide(color: AppColors.backgroundDark, width: 2), // active border
+          borderSide: const BorderSide(color: AppColors.backgroundDark, width: 2), 
         ),
       ),
       items: const [

@@ -37,7 +37,10 @@ class _AddressCardState extends State<AddressCard> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text("Cancel"),
+            child: const Text("Cancel",
+            style: TextStyle(color: AppColors.textPrimary),
+            
+            ),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -51,7 +54,9 @@ class _AddressCardState extends State<AddressCard> {
               }
               Navigator.pop(ctx);
             },
-            child: const Text("Save"),
+            child: const Text("Save",
+            style: TextStyle(color: AppColors.textPrimary),
+            ),
           ),
         ],
       ),
@@ -63,7 +68,7 @@ class _AddressCardState extends State<AddressCard> {
     await box.deleteAt(index);
 
     if (selectedIndex == index) {
-      setState(() => selectedIndex = null); // reset selection if deleted
+      setState(() => selectedIndex = null); 
     }
   }
 

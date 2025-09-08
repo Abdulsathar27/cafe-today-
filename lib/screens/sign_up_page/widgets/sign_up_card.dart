@@ -18,7 +18,7 @@ class _SignUpCardState extends State<SignUpCard> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  String? _selectedRole; // if you want to save role also
+  String? _selectedRole; 
 
   @override
   Widget build(BuildContext context) {

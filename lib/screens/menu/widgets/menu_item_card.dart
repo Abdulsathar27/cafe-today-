@@ -12,13 +12,13 @@ class MenuItemCard extends StatelessWidget {
     try {
       final cartBox = Hive.box<CartItem>('cartBox');
 
-      // check if item already exists
+     
       final existingIndex = cartBox.values.toList().indexWhere(
         (cartItem) => cartItem.menuItem.id == menuItem.id,
       );
 
       if (existingIndex != -1) {
-        // already in cart → increase quantity
+        
         final existing = cartBox.getAt(existingIndex);
         if (existing != null) {
           cartBox.putAt(
@@ -30,7 +30,7 @@ class MenuItemCard extends StatelessWidget {
           );
         }
       } else {
-        // add new item
+        
         cartBox.add(CartItem(menuItem: menuItem));
       }
 
@@ -47,7 +47,7 @@ class MenuItemCard extends StatelessWidget {
         ),
       );
     } catch (e) {
-      // fallback in case Hive isn't ready
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.buttonPrimary,
@@ -69,7 +69,6 @@ class MenuItemCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 📌 Image
           Expanded(
             child: ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
@@ -81,7 +80,7 @@ class MenuItemCard extends StatelessWidget {
             ),
           ),
 
-          // 📌 Title
+         
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
@@ -90,7 +89,7 @@ class MenuItemCard extends StatelessWidget {
             ),
           ),
 
-          // 📌 Description
+         
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
@@ -100,7 +99,7 @@ class MenuItemCard extends StatelessWidget {
             ),
           ),
 
-          // 📌 Price + Add Button
+          
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(

@@ -11,7 +11,6 @@ class PaymentMethodCard extends StatefulWidget {
 class _PaymentMethodCardState extends State<PaymentMethodCard> {
   int? selectedIndex;
 
-  // Hardcoded list of payment methods (you can expand later)
   final List<String> methods = [
     "Cash on Delivery",
     "UPI / Wallet",
@@ -34,7 +33,7 @@ class _PaymentMethodCardState extends State<PaymentMethodCard> {
             ),
             const SizedBox(height: 8),
 
-            // Show payment methods with radio buttons
+            
             ...List.generate(methods.length, (index) {
               return ListTile(
                 title: Text(methods[index]),

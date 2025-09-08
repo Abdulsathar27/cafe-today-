@@ -13,23 +13,23 @@ class MenuAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       backgroundColor: AppColors.primary,
       leading: IconButton(
-        icon: const Icon(Icons.person_2_outlined), // 👈 Profile icon
+        icon: const Icon(Icons.person_2_outlined), 
         onPressed: () {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (_) => const ProfilePage()), // replace with your ProfilePage
-            (route) => false, // remove all previous routes
+            MaterialPageRoute(builder: (_) => const ProfilePage()), 
+            (route) => false, 
           );
         },
       ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.shopping_cart_checkout_outlined), // 👈 Cart icon
+          icon: const Icon(Icons.shopping_cart_checkout_sharp), 
           onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (_) => const CartPage()), // replace with your CartPage
-              (route) => false, // remove all previous routes
+              MaterialPageRoute(builder: (_) => const CartPage()), 
+              (route) => false, 
             );
           },
         ),

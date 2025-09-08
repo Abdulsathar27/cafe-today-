@@ -31,25 +31,7 @@ class ProfileAppBar extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 4),
-        
-          TextButton.icon(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.edit_outlined,
-              size: AppSizes.textLl,
-              color: Colors.black87,
-            ),
-            label: Text(
-              AppTexts.edit,
-              style: TextStyle(color: AppColors.editColor),
-            ),
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-          ),
-          const SizedBox(width: 4),
+    
 
           TextButton.icon(
             onPressed: () {

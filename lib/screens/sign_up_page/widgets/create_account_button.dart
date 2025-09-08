@@ -17,7 +17,6 @@ class CreateAccountButton extends StatelessWidget {
   });
 
   Future<void> _handleRegister(BuildContext context) async {
-    // Save only username/password in SharedPreferences
     await AuthService.register(
       emailController.text.trim(),
       passwordController.text.trim(),
@@ -37,15 +36,15 @@ class CreateAccountButton extends StatelessWidget {
       ),
     );
 
-    Navigator.pop(context); // Go back to login page
+    Navigator.pop(context); 
   }
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary, // button background
-        foregroundColor: AppColors.textWhite, // button text color
+        backgroundColor: AppColors.primary, 
+        foregroundColor: AppColors.textWhite, 
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),

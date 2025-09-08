@@ -25,7 +25,7 @@ class OrderSummaryCard extends StatelessWidget {
 
             final cartItems = cartBox.values.toList();
 
-            // ✅ Safe total calculation
+           
             final total = cartItems.fold<double>(
               0,
               (sum, cartItem) =>
@@ -40,8 +40,7 @@ class OrderSummaryCard extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
-
-                // ✅ List all cart items safely
+                
                 ...cartItems.map((cartItem) {
                   final menuItem = cartItem.menuItem;
                   final price = menuItem.price * cartItem.quantity;
