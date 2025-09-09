@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'widgets/profile_app_bar.dart';
 import 'widgets/account_info_card.dart';
 import 'widgets/order_stats_card.dart';
-import 'widgets/quick_actions_card.dart';
+
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -33,8 +33,6 @@ class ProfilePage extends StatelessWidget {
                       SizedBox(height: 12),
                       OrderStatsCard(),
                       SizedBox(height: 12),
-                      QuickActionsCard(),
-                      SizedBox(height: 24),
                     ],
                   ),
                 ),

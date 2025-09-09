@@ -8,16 +8,55 @@ import 'package:cafebooking/constants/app_texts.dart';
 class ProfileAppBar extends StatelessWidget {
   const ProfileAppBar({super.key});
 
+  Future<void> _confirmLogout(BuildContext context) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text("Logout"),
+        content: const Text("Are you sure you want to log out?"),
+        actions: [
+          ElevatedButton(
+            style:ElevatedButton.styleFrom(
+              backgroundColor: AppColors.badgeText,
+              foregroundColor: AppColors.textWhite,
+
+            ),
+            onPressed: () => Navigator.pop(ctx, false), 
+            child: const Text("No"),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.logoutColor,
+              foregroundColor: AppColors.textWhite,
+            ),
+            onPressed: () => Navigator.pop(ctx, true), 
+            child: const Text("Yes"),
+          ),
+        ],
+      ),
+    );
+
+    if (result == true) {
+      // ✅ If confirmed, go to login page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const CafeLoginPage()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
       child: Row(
         children: [
-          
           IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MenuPage())),
+            onPressed: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const MenuPage()),
+            ),
           ),
           const SizedBox(width: 4),
           const Expanded(
@@ -31,12 +70,8 @@ class ProfileAppBar extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 4),
-    
-
           TextButton.icon(
-            onPressed: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CafeLoginPage()));
-            },
+            onPressed: () => _confirmLogout(context),
             icon: Icon(Icons.logout, size: 18, color: AppColors.logoutColor),
             label: Text(
               AppTexts.logout,

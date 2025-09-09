@@ -29,7 +29,6 @@ class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           icon: const Icon(Icons.check),
           onPressed: () {
-            // 👉 TODO: Navigate to checkout page or trigger checkout logic
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
               backgroundColor: AppColors.buttonPrimary,
@@ -37,7 +36,7 @@ class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
               margin: const EdgeInsets.all(16),
               shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-          ),
+             ),
                 content: const Text("Proceeding to Checkout...")),
             );
           },

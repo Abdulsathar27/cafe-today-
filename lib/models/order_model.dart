@@ -1,4 +1,3 @@
-// order_model.dart
 import 'package:hive/hive.dart';
 import 'order_item.dart';
 
@@ -19,7 +18,7 @@ class Order extends HiveObject {
   DateTime date;
 
   @HiveField(4)
-  String status; // e.g., "Placed", "Delivered"
+  String status; 
 
   Order({
     required this.id,

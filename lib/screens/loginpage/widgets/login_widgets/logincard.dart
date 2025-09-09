@@ -31,7 +31,7 @@ class _LoginCardState extends State<LoginCard> {
             const SizedBox(height: 20),
             SignInButton(
               emailController: _emailController,
-              passwordController: _passwordController,
+              passwordController: _passwordController, onPressed: () {},
             ),
             const SizedBox(height: 12),
             const SignUpLink(),

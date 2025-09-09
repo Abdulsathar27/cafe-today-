@@ -1,4 +1,4 @@
-import 'package:cafebooking/screens/orders/orders_page.dart';
+import 'package:cafebooking/screens/checkout/widgets/order_success_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cafebooking/constants/app_colors.dart';
@@ -50,23 +50,10 @@ class CheckoutBottomBar extends StatelessWidget {
       // clear cart
       await cartBox.clear();
 
-      // success feedback
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: AppColors.buttonPrimary,
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          content: const Text("Order placed successfully 🎉"),
-        ),
-      );
-
       // navigate to orders page
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (_) => const OrdersPage()),
+        MaterialPageRoute(builder: (_) => const OrderSuccessPage()),
         (route) => false,
       );
     } catch (e, st) {
@@ -94,7 +81,7 @@ class CheckoutBottomBar extends StatelessWidget {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black,
             blurRadius: 6,
             offset: const Offset(0, -2),
           ),
@@ -124,7 +111,7 @@ class CheckoutBottomBar extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(30),
                   ),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -151,7 +138,7 @@ class CheckoutBottomBar extends StatelessWidget {
                 child: const Text(
                   "Place Order",
                   style: TextStyle(
-                    color: AppColors.textPrimary,
+                    color: AppColors.textWhite,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),

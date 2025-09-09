@@ -1,4 +1,3 @@
-// order_item.dart
 import 'package:hive/hive.dart';
 
 part 'order_item.g.dart';
