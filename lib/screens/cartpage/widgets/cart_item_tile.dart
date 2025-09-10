@@ -28,7 +28,7 @@ class CartItemTile extends StatelessWidget {
               backgroundColor: AppColors.badgeText,
               foregroundColor: AppColors.textWhite,
             ),
-            onPressed: () => Navigator.pop(ctx, false), // No
+            onPressed: () => Navigator.pop(ctx, false), 
             child: const Text("No"),
           ),
           ElevatedButton(
@@ -36,7 +36,7 @@ class CartItemTile extends StatelessWidget {
               backgroundColor: AppColors.logoutColor,
               foregroundColor: AppColors.textWhite
             ),
-            onPressed: () => Navigator.pop(ctx, true), // Yes
+            onPressed: () => Navigator.pop(ctx, true), 
             child: const Text("Yes"),
           ),
         ],

@@ -1,6 +1,4 @@
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 class AuthService {
   static const _keyUsername = 'username';
   static const _keyPassword = 'password';

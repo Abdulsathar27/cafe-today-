@@ -49,7 +49,7 @@ class SignInButton extends StatelessWidget {
       final success = await AuthService.login(email, password);
 
       if (success) {
-        // Navigate to MenuPage and clear the stack
+        
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (_) => const MenuPage()),
@@ -59,7 +59,7 @@ class SignInButton extends StatelessWidget {
         _showSnackBar(context, "Invalid email or password. Please try again!", isError: true);
       }
     } catch (e) {
-      // Unexpected error
+      
       _showSnackBar(context, "Something went wrong. Please try again.", isError: true);
     }
   }

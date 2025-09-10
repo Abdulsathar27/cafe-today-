@@ -3,7 +3,6 @@ import 'emailfield.dart';
 import 'passwordfield.dart';
 import 'sign_in_button.dart';
 import 'signuplink.dart';
-import 'quickloginsection.dart';
 
 class LoginCard extends StatefulWidget {
   const LoginCard({super.key});
@@ -36,7 +35,7 @@ class _LoginCardState extends State<LoginCard> {
             const SizedBox(height: 12),
             const SignUpLink(),
             const SizedBox(height: 12),
-            const QuickLoginSection(),
+            
           ],
         ),
       ),

@@ -32,6 +32,8 @@ Future<void> main() async {
   await Hive.openBox<Profile>('profileBox'); 
   await Hive.openBox<Order>('ordersBox');
 
+
+
   runApp(const MyApp());
 }
 

@@ -33,12 +33,17 @@ class AppColors {
   static const Color inputHint = Color(0xFF9E9E9E);
 
   // Profile Page Extras
-  static const Color badgeBg = Color(0xFFE7F7EB);   // light green background
+  static const Color badgeBg = Color(0xFFE7F7EB); // light green background
   static const Color badgeText = Color(0xFF2E7D32); // dark green text
 
   static const Color statTileBg = Color(0xFFFFF4D8); // pale yellow stat tile
-  static const Color actionTileBorder = Color(0xFFE0E0E0); // quick actions outline
+  static const Color actionTileBorder = Color(
+    0xFFE0E0E0,
+  ); // quick actions outline
 
-  static const Color editColor = Color(0xFF616161);   // grey edit text
+  static const Color editColor = Color(0xFF616161); // grey edit text
   static const Color logoutColor = Color(0xFFD32F2F); // red logout
+  static const Color piechartst = Color.fromARGB(255, 15, 233, 22);
+  static const Color piechartod = Color.fromARGB(255, 41, 152, 232);
+
 }
