@@ -1,10 +1,9 @@
+import 'package:cafebooking/constants/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'full_name_field.dart';
-import 'package:cafebooking/screens/loginpage/widgets/login_widgets/emailfield.dart';
-import 'package:cafebooking/screens/loginpage/widgets/login_widgets/passwordfield.dart';
-import 'create_account_button.dart';
-import 'role_dropdown.dart';
-import 'sign_in_link.dart';
+import 'package:cafebooking/screens/sign_up_page/widgets/create_account_button.dart';
+import 'package:cafebooking/screens/sign_up_page/widgets/full_name_field.dart';
+import 'package:cafebooking/screens/sign_up_page/widgets/role_dropdown.dart';
+import 'package:cafebooking/screens/sign_up_page/widgets/sign_in_link.dart';
 
 class SignUpCard extends StatefulWidget {
   const SignUpCard({super.key});
@@ -16,13 +15,15 @@ class SignUpCard extends StatefulWidget {
 class _SignUpCardState extends State<SignUpCard> {
   final _fullNameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController(); // ✅ new
 
-  String? _selectedRole; 
+  String _selectedRole = "customer"; // default
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -30,17 +31,77 @@ class _SignUpCardState extends State<SignUpCard> {
           children: [
             FullNameField(controller: _fullNameController),
             const SizedBox(height: 12),
-            EmailField(controller: _emailController),
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(
+                labelText: "Email",
+                prefixIcon: const Icon(Icons.email),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide(
+                    color: AppColors.backgroundDark,
+                    width: 2,
+                  ),
+                ),
+              ),
+              keyboardType: TextInputType.emailAddress,
+            ),
             const SizedBox(height: 12),
-            PasswordField(controller: _passwordController),
+            TextField(
+              controller: _phoneController,
+              decoration: InputDecoration(
+                labelText: "Phone",
+                prefixIcon: const Icon(Icons.phone),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: const BorderSide(
+                    color: AppColors.backgroundDark,
+                    width: 2,
+                  ),
+                ),
+              ),
+              keyboardType: TextInputType.phone,
+            ),
             const SizedBox(height: 12),
-            RoleDropdown(onChanged: (role) => setState(() => _selectedRole = role)),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                labelText: "Password",
+                prefixIcon: const Icon(Icons.lock),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: const BorderSide(
+                    color: AppColors.backgroundDark,
+                    width: 2,
+                  ),
+                ),
+              ),
+              obscureText: true,
+            ),
+            const SizedBox(height: 12),
+            RoleDropdown(
+              onChanged: (role) {
+                setState(() {
+                  _selectedRole = role ?? "customer";
+                });
+              },
+            ),
             const SizedBox(height: 20),
             CreateAccountButton(
               fullNameController: _fullNameController,
               emailController: _emailController,
-              passwordController: _passwordController,
-              role: _selectedRole,
+              phoneController: _phoneController,
+              passwordController: _passwordController, // ✅ pass
+              selectedRole: _selectedRole,
             ),
             const SizedBox(height: 12),
             const SignInLink(),

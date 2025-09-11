@@ -1,8 +1,8 @@
-// lib/screens/loginpage/widgets/login_widgets/sign_in_button.dart
-import 'package:flutter/material.dart';
-import 'package:cafebooking/screens/menu/menu_page.dart';
-import 'package:cafebooking/services/auth_service.dart';
 import 'package:cafebooking/constants/app_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:cafebooking/services/profile_service.dart';
+import 'package:cafebooking/screens/menu/menu_page.dart';
+import 'package:cafebooking/screens/homepage/home.dart';
 
 class SignInButton extends StatelessWidget {
   final TextEditingController emailController;
@@ -11,76 +11,81 @@ class SignInButton extends StatelessWidget {
   const SignInButton({
     super.key,
     required this.emailController,
-    required this.passwordController, required void Function() onPressed,
+    required this.passwordController,
   });
-
-  void _showSnackBar(BuildContext ctx, String message, {bool isError = false}) {
-    ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
-    ScaffoldMessenger.of(ctx).showSnackBar(
-      SnackBar(
-        backgroundColor: isError ? AppColors.buttonPrimary : AppColors.buttonPrimary,
-        behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.all(16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        content: Text(message, style: const TextStyle(color: AppColors.textWhite)),
-      ),
-    );
-  }
 
   Future<void> _handleLogin(BuildContext context) async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
-    // Validation snackbars (preserves your requested messages)
+    // ✅ Simple guidance only
     if (email.isEmpty && password.isEmpty) {
-      _showSnackBar(context, "Please enter email and password", isError: true);
+      _showSnack(context, "Please enter your email and password.");
       return;
-    }
-    if (email.isEmpty) {
-      _showSnackBar(context, "Please enter your email", isError: true);
+    } else if (email.isEmpty) {
+      _showSnack(context, "Please enter your email.");
       return;
-    }
-    if (password.isEmpty) {
-      _showSnackBar(context, "Please enter your password", isError: true);
+    } else if (password.isEmpty) {
+      _showSnack(context, "Please enter your password.");
       return;
     }
 
-    try {
-      final success = await AuthService.login(email, password);
+    final user = await ProfileService.readCombinedUser();
 
-      if (success) {
-        
-        Navigator.pushAndRemoveUntil(
+    if (user == null) {
+      _showSnack(context, "No account found. Please sign up first.");
+      return;
+    }
+
+    final savedEmail = user['email'] ?? '';
+    final savedPassword = user['password'] ?? '';
+    final role = (user['role'] ?? 'customer').toLowerCase();
+
+    if (email == savedEmail && password == savedPassword) {
+      if (!context.mounted) return;
+      if (role == "admin") {
+        Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const MenuPage()),
-          (route) => false,
+          MaterialPageRoute(builder: (_) => const HomePage()),
         );
       } else {
-        _showSnackBar(context, "Invalid email or password. Please try again!", isError: true);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const MenuPage()),
+        );
       }
-    } catch (e) {
-      
-      _showSnackBar(context, "Something went wrong. Please try again.", isError: true);
+    } else {
+      _showSnack(context, "Invalid credentials");
     }
+  }
+
+  void _showSnack(BuildContext context, String message) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: AppColors.buttonPrimary,
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.only(bottom: 80, left: 16, right: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        content: Text(message),
+        duration: const Duration(seconds: 3),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.buttonPrimary,
-          foregroundColor: AppColors.textWhite,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
-        ),
-        onPressed: () => _handleLogin(context),
-        child: const Text(
-          "Login",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
+    return ElevatedButton(
+      onPressed: () => _handleLogin(context),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.buttonPrimary,
+        foregroundColor: AppColors.textWhite,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 46),
       ),
+      child: const Text("Sign In"),
     );
   }
 }

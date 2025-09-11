@@ -1,7 +1,8 @@
-import 'package:cafebooking/constants/app_colors.dart';
-import 'package:cafebooking/constants/app_texts.dart';
 import 'package:cafebooking/screens/sign_up_page/sign_up_page.dart';
 import 'package:flutter/material.dart';
+import 'package:cafebooking/constants/app_colors.dart';
+import 'package:cafebooking/constants/app_texts.dart';
+// ✅ fixed import
 
 class SignUpLink extends StatelessWidget {
   const SignUpLink({super.key});

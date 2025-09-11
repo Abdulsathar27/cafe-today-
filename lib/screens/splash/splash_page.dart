@@ -1,16 +1,15 @@
 import 'dart:async';
-import 'package:cafebooking/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:cafebooking/constants/app_colors.dart';
+import 'package:cafebooking/screens/loginpage/login.dart';
 import 'widgets/splash_background.dart';
 import 'widgets/splash_logo.dart';
 
 class SplashPage extends StatefulWidget {
-  final Widget nextPage;
   final Duration duration;
 
   const SplashPage({
     super.key,
-    required this.nextPage,
     this.duration = const Duration(seconds: 2),
   });
 
@@ -24,12 +23,17 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer(widget.duration, () {
-      if (!mounted) return;
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => widget.nextPage),
-      );
-    });
+    _timer = Timer(widget.duration, _navigate);
+  }
+
+  Future<void> _navigate() async {
+    if (!mounted) return;
+
+    // ✅ Always redirect to login when app restarts
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const CafeLoginPage()),
+    );
   }
 
   @override
@@ -45,9 +49,9 @@ class _SplashPageState extends State<SplashPage> {
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,
-          children: [
-            SplashBackground(),    
-            Center(child: SplashLogo()), 
+          children: const [
+            SplashBackground(),
+            Center(child: SplashLogo()),
           ],
         ),
       ),

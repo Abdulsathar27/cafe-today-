@@ -33,7 +33,7 @@ class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
               SnackBar(
               backgroundColor: AppColors.buttonPrimary,
               behavior: SnackBarBehavior.floating,
-              margin: const EdgeInsets.all(16),
+              margin: const EdgeInsets.only(bottom: 80, left: 16, right: 16),
               shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
              ),

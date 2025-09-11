@@ -46,17 +46,16 @@ class _AccountInfoCardState extends State<AccountInfoCard> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.logoutColor,
-                foregroundColor: AppColors.textWhite
+                foregroundColor: AppColors.textWhite,
               ),
-              
               onPressed: () => Navigator.pop(dCtx),
               child: const Text('Cancel'),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.badgeText,
-              foregroundColor: AppColors.textWhite,
-            ),
+                backgroundColor: AppColors.badgeText,
+                foregroundColor: AppColors.textWhite,
+              ),
               onPressed: () async {
                 final newName = nameCtrl.text.trim();
                 final newEmail = emailCtrl.text.trim();
@@ -69,19 +68,27 @@ class _AccountInfoCardState extends State<AccountInfoCard> {
                   return;
                 }
 
+                // ✅ Safely read current user
+                final currentUser = await ProfileService.readCombinedUser();
+                final currentRole = currentUser?['role'] ?? 'customer';
+                final currentPassword = currentUser?['password'] ?? '';
+
                 await ProfileService.saveUser(
                   name: newName,
                   email: newEmail,
                   phone: newPhone,
+                  role: currentRole,
+                  password: currentPassword,
                 );
 
                 if (mounted) setState(() {});
                 Navigator.pop(dCtx);
+
                 ScaffoldMessenger.of(ctx).showSnackBar(
                   SnackBar(
                     backgroundColor: AppColors.buttonPrimary,
                     behavior: SnackBarBehavior.floating,
-                    margin: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.only(bottom: 80, left: 16, right: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -89,7 +96,7 @@ class _AccountInfoCardState extends State<AccountInfoCard> {
                   ),
                 );
               },
-              child: const Text('Save',),
+              child: const Text('Save'),
             ),
           ],
         );
@@ -99,10 +106,13 @@ class _AccountInfoCardState extends State<AccountInfoCard> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Map<String, String>>(
+    return FutureBuilder<Map<String, String>?>(
       future: ProfileService.readCombinedUser(),
       builder: (context, snap) {
-        final data = snap.data ?? {'name': '', 'email': '', 'phone': ''};
+        // ✅ Provide safe defaults if null
+        final data = snap.data ??
+            {'name': '', 'email': '', 'phone': '', 'role': 'customer', 'password': ''};
+
         final name = data['name']!.isNotEmpty ? data['name']! : 'Guest';
         final email = data['email']!.isNotEmpty ? data['email']! : '—';
         final phone = data['phone']!.isNotEmpty ? data['phone']! : '—';
@@ -150,7 +160,7 @@ class _AccountInfoCardState extends State<AccountInfoCard> {
                           const SizedBox(height: 4),
                           Text(
                             email,
-                            style: const TextStyle(color:AppColors.inputHint),
+                            style: const TextStyle(color: AppColors.inputHint),
                           ),
                           Text(
                             phone,
