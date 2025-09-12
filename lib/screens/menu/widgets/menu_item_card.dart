@@ -1,121 +1,84 @@
-import 'package:cafebooking/constants/app_colors.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:cafebooking/models/menu_item.dart';
-import 'package:cafebooking/models/cart_item.dart';
+import 'package:cafebooking/constants/app_colors.dart';
 
 class MenuItemCard extends StatelessWidget {
   final MenuItem menuItem;
-  const MenuItemCard({super.key, required this.menuItem});
+  final VoidCallback onAddToCart;
 
-  void _addToCart(BuildContext context) {
-    try {
-      final cartBox = Hive.box<CartItem>('cartBox');
-
-     
-      final existingIndex = cartBox.values.toList().indexWhere(
-        (cartItem) => cartItem.menuItem.id == menuItem.id,
-      );
-
-      if (existingIndex != -1) {
-        
-        final existing = cartBox.getAt(existingIndex);
-        if (existing != null) {
-          cartBox.putAt(
-            existingIndex,
-            CartItem(
-              menuItem: existing.menuItem,
-              quantity: existing.quantity + 1,
-            ),
-          );
-        }
-      } else {
-        
-        cartBox.add(CartItem(menuItem: menuItem));
-      }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: AppColors.buttonPrimary,
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(16),
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          ),
-          content: Text("${menuItem.title} added to cart"),
-          duration: const Duration(seconds: 1),
-        ),
-      );
-    } catch (e) {
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: AppColors.buttonPrimary,
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(16),
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          ),
-          content: const Text("Something went wrong while adding to cart"),
-        ),
-      );
-    }
-  }
+  const MenuItemCard({
+    super.key,
+    required this.menuItem,
+    required this.onAddToCart,
+  });
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider imageProvider;
+
+    if (menuItem.imageUrl.isEmpty) {
+      // ✅ No image → show placeholder
+      imageProvider = const AssetImage("assets/images/placeholder.png");
+    } else if (menuItem.imageUrl.startsWith("/")) {
+      // ✅ Local file
+      imageProvider = FileImage(File(menuItem.imageUrl));
+    } else {
+      // ✅ Network image
+      imageProvider = NetworkImage(menuItem.imageUrl);
+    }
+
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Image
           Expanded(
             child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.asset(
-                menuItem.imageUrl,
-                fit: BoxFit.cover,
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              child: Image(
+                image: imageProvider,
                 width: double.infinity,
+                fit: BoxFit.cover,
               ),
             ),
           ),
 
-         
+          // Details
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              menuItem.title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-
-         
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              menuItem.description,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-
-          
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("₹${menuItem.price}"),
-                ElevatedButton(
-                  onPressed: () => _addToCart(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: AppColors.textWhite,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                Text(menuItem.title,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 14)),
+                const SizedBox(height: 4),
+                Text(
+                  menuItem.description,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "₹${menuItem.price}",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
                     ),
-                  ),
-                  child: const Text("Add"),
+                    IconButton(
+                      icon: const Icon(Icons.add_shopping_cart,
+                          color: AppColors.primary),
+                      onPressed: onAddToCart,
+                    ),
+                  ],
                 ),
               ],
             ),

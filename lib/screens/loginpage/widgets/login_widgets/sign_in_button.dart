@@ -2,7 +2,7 @@ import 'package:cafebooking/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cafebooking/services/profile_service.dart';
 import 'package:cafebooking/screens/menu/menu_page.dart';
-import 'package:cafebooking/screens/homepage/home.dart';
+import 'package:cafebooking/screens/dashboard/dashboard_pages.dart';
 
 class SignInButton extends StatelessWidget {
   final TextEditingController emailController;
@@ -46,7 +46,7 @@ class SignInButton extends StatelessWidget {
       if (role == "admin") {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const HomePage()),
+          MaterialPageRoute(builder: (_) => const DashboardPage()),
         );
       } else {
         Navigator.pushReplacement(

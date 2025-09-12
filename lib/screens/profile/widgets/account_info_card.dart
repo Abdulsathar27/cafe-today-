@@ -88,7 +88,11 @@ class _AccountInfoCardState extends State<AccountInfoCard> {
                   SnackBar(
                     backgroundColor: AppColors.buttonPrimary,
                     behavior: SnackBarBehavior.floating,
-                    margin: const EdgeInsets.only(bottom: 80, left: 16, right: 16),
+                    margin: const EdgeInsets.only(
+                      bottom: 80,
+                      left: 16,
+                      right: 16,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -110,8 +114,15 @@ class _AccountInfoCardState extends State<AccountInfoCard> {
       future: ProfileService.readCombinedUser(),
       builder: (context, snap) {
         // ✅ Provide safe defaults if null
-        final data = snap.data ??
-            {'name': '', 'email': '', 'phone': '', 'role': 'customer', 'password': ''};
+        final data =
+            snap.data ??
+            {
+              'name': '',
+              'email': '',
+              'phone': '',
+              'role': 'customer',
+              'password': '',
+            };
 
         final name = data['name']!.isNotEmpty ? data['name']! : 'Guest';
         final email = data['email']!.isNotEmpty ? data['email']! : '—';

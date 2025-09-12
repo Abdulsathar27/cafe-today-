@@ -1,3 +1,4 @@
+import 'package:cafebooking/models/cafe_order.dart';
 import 'package:flutter/material.dart';
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/constants/app_texts.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
   Hive.registerAdapter(ProfileAdapter());
   Hive.registerAdapter(OrderItemAdapter());
   Hive.registerAdapter(OrderAdapter());
+  Hive.registerAdapter(CafeOrderAdapter());
 
   // ✅ Open Hive boxes safely
   await _openHiveBox<MenuItem>('menuBox');
@@ -30,6 +32,7 @@ Future<void> main() async {
   await _openHiveBox<Address>('addressBox');
   await _openHiveBox<Profile>('profileBox');
   await _openHiveBox<Order>('ordersBox');
+  await _openHiveBox<Order>('cafeorder');
 
   runApp(const MyApp());
 }
