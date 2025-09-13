@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cafebooking/models/cart_item.dart';
@@ -28,15 +29,15 @@ class CartItemTile extends StatelessWidget {
               backgroundColor: AppColors.badgeText,
               foregroundColor: AppColors.textWhite,
             ),
-            onPressed: () => Navigator.pop(ctx, false), 
+            onPressed: () => Navigator.pop(ctx, false),
             child: const Text("No"),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.logoutColor,
-              foregroundColor: AppColors.textWhite
+              foregroundColor: AppColors.textWhite,
             ),
-            onPressed: () => Navigator.pop(ctx, true), 
+            onPressed: () => Navigator.pop(ctx, true),
             child: const Text("Yes"),
           ),
         ],
@@ -50,14 +51,28 @@ class CartItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String imageUrl = cartItem.menuItem.imageUrl ?? "";
+
+    ImageProvider imageProvider;
+    if (imageUrl.isEmpty) {
+      imageProvider = const AssetImage("assets/images/placeholder.png");
+    } else if (imageUrl.startsWith("/")) {
+      imageProvider = FileImage(File(imageUrl));
+    } else {
+      imageProvider = NetworkImage(imageUrl);
+    }
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: ListTile(
-        leading: Image.asset(
-          cartItem.menuItem.imageUrl,
-          width: 50,
-          height: 50,
-          fit: BoxFit.cover,
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image(
+            image: imageProvider,
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+          ),
         ),
         title: Text(cartItem.menuItem.title),
         subtitle: Text("₹${cartItem.menuItem.price} x ${cartItem.quantity}"),
@@ -75,7 +90,7 @@ class CartItemTile extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () => _confirmDelete(context), 
+              onPressed: () => _confirmDelete(context),
             ),
           ],
         ),

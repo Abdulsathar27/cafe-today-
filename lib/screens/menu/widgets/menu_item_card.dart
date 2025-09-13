@@ -15,17 +15,16 @@ class MenuItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ✅ Safe null handling for image
+    final String imageUrl = menuItem.imageUrl ?? "";
     ImageProvider imageProvider;
 
-    if (menuItem.imageUrl.isEmpty) {
-      // ✅ No image → show placeholder
+    if (imageUrl.isEmpty) {
       imageProvider = const AssetImage("assets/images/placeholder.png");
-    } else if (menuItem.imageUrl.startsWith("/")) {
-      // ✅ Local file
-      imageProvider = FileImage(File(menuItem.imageUrl));
+    } else if (imageUrl.startsWith("/")) {
+      imageProvider = FileImage(File(imageUrl));
     } else {
-      // ✅ Network image
-      imageProvider = NetworkImage(menuItem.imageUrl);
+      imageProvider = NetworkImage(imageUrl);
     }
 
     return Card(
@@ -37,7 +36,8 @@ class MenuItemCard extends StatelessWidget {
           // Image
           Expanded(
             child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(12)),
               child: Image(
                 image: imageProvider,
                 width: double.infinity,
@@ -52,17 +52,28 @@ class MenuItemCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(menuItem.title,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 14)),
-                const SizedBox(height: 4),
+                // ✅ Title (always required)
                 Text(
-                  menuItem.description,
+                  menuItem.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 4),
+
+                // ✅ Description (nullable → fallback if empty)
+                Text(
+                  (menuItem.description?.isNotEmpty ?? false)
+                      ? menuItem.description!
+                      : "No description",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
                 const SizedBox(height: 6),
+
+                // ✅ Price + Add to Cart
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -74,8 +85,10 @@ class MenuItemCard extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.add_shopping_cart,
-                          color: AppColors.primary),
+                      icon: const Icon(
+                        Icons.add_shopping_cart,
+                        color: AppColors.primary,
+                      ),
                       onPressed: onAddToCart,
                     ),
                   ],

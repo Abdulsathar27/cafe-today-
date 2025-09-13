@@ -3,31 +3,31 @@ import 'package:hive/hive.dart';
 part 'menu_item.g.dart';
 
 @HiveType(typeId: 0)
-class MenuItem extends HiveObject {
+class MenuItem {
   @HiveField(0)
-  String id;
+  final String id; // always required
 
   @HiveField(1)
-  String title;
+  final String title; // always required
 
   @HiveField(2)
-  String description;
+  final String? description; // optional
 
   @HiveField(3)
-  String imageUrl;
+  final int price; // always required
 
   @HiveField(4)
-  int price;
+  final String? imageUrl; // optional
 
-  @HiveField(5) 
-  String? category;
+  @HiveField(5)
+  final String category; // always required
 
   MenuItem({
     required this.id,
     required this.title,
-    required this.description,
-    required this.imageUrl,
+    this.description,
     required this.price,
-    this.category, 
+    this.imageUrl,
+    required this.category,
   });
 }

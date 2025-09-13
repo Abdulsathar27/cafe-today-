@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart'; // for ValueListenable
-import 'package:hive_flutter/hive_flutter.dart'; // ✅ fix here
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cafebooking/models/order_model.dart';
 import 'package:cafebooking/models/cart_item.dart';
 import 'package:cafebooking/models/order_item.dart';
@@ -19,7 +19,7 @@ class OrderService {
         title: c.menuItem.title,
         price: price,
         quantity: c.quantity,
-        imageUrl: c.menuItem.imageUrl,
+        imageUrl: c.menuItem.imageUrl ?? "", // ✅ safe fallback
       );
     }).toList();
 
@@ -34,12 +34,18 @@ class OrderService {
     await _orderBox.add(newOrder);
   }
 
-  /// Admin updates order status
+  /// Admin updates order status (works even if Order is immutable)
   Future<void> updateStatus(int index, String status) async {
     final order = _orderBox.getAt(index);
     if (order != null) {
-      order.status = status;
-      await _orderBox.putAt(index, order);
+      final updatedOrder = Order(
+        id: order.id,
+        items: order.items,
+        total: order.total,
+        date: order.date,
+        status: status,
+      );
+      await _orderBox.putAt(index, updatedOrder);
     }
   }
 
@@ -50,10 +56,10 @@ class OrderService {
 
   /// Stream orders for admin (real-time updates)
   ValueListenable<Box<Order>> listenToOrders() {
-    return _orderBox.listenable(); // ✅ now works
+    return _orderBox.listenable();
   }
 
-  /// Clear all orders (optional, admin use only)
+  /// Clear all orders (admin use only)
   Future<void> clearAllOrders() async {
     await _orderBox.clear();
   }

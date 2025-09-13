@@ -1,17 +1,16 @@
-import 'package:cafebooking/screens/checkout/widgets/order_success_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/models/cart_item.dart';
 import 'package:cafebooking/models/order_item.dart';
 import 'package:cafebooking/models/order_model.dart';
+import 'package:cafebooking/screens/checkout/widgets/order_success_page.dart';
 
 class CheckoutBottomBar extends StatelessWidget {
   const CheckoutBottomBar({super.key});
 
   Future<void> _placeOrder(BuildContext context, Box<CartItem> cartBox) async {
     try {
-      // build order items
       final items = <OrderItem>[];
       int total = 0;
 
@@ -26,17 +25,12 @@ class CheckoutBottomBar extends StatelessWidget {
           title: menu.title,
           price: price,
           quantity: qty,
-          imageUrl: menu.imageUrl,
+          imageUrl: menu.imageUrl ?? "", // ✅ safe fallback
         ));
       }
 
-      // open ordersBox if not already
-      if (!Hive.isBoxOpen('ordersBox')) {
-        await Hive.openBox<Order>('ordersBox');
-      }
       final ordersBox = Hive.box<Order>('ordersBox');
 
-      // create order
       final order = Order(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         items: items,
@@ -47,10 +41,8 @@ class CheckoutBottomBar extends StatelessWidget {
 
       await ordersBox.add(order);
 
-      // clear cart
       await cartBox.clear();
 
-      // navigate to orders page
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (_) => const OrderSuccessPage()),
@@ -81,7 +73,7 @@ class CheckoutBottomBar extends StatelessWidget {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black,
+            color: Colors.black.withOpacity(0.1), // ✅ softer shadow
             blurRadius: 6,
             offset: const Offset(0, -2),
           ),

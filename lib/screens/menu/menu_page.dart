@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:cafebooking/screens/cartpage/cart_page.dart';
 import 'package:cafebooking/screens/profile/profilepage.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cafebooking/models/menu_item.dart';
 import 'package:cafebooking/models/cart_item.dart';
 import 'package:cafebooking/constants/app_colors.dart';
-
 import 'package:cafebooking/screens/menu/widgets/menu_item_card.dart';
+import 'package:cafebooking/screens/dashboard/add_items/item_details_page.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -29,19 +30,15 @@ class MenuPage extends StatelessWidget {
             ],
           ),
           actions: [
-            // ✅ Profile Icon only
             IconButton(
-              icon: const Icon(Icons.person,),
+              icon: const Icon(Icons.person),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const ProfilePage()),
                 );
-                
               },
             ),
-
-            // ✅ Cart Icon
             IconButton(
               icon: const Icon(Icons.shopping_cart),
               onPressed: () {
@@ -53,8 +50,8 @@ class MenuPage extends StatelessWidget {
             ),
           ],
         ),
-        backgroundColor: AppColors.backgroundLight ?? const Color(0xFFF5F5F5),
-
+        backgroundColor:
+            AppColors.backgroundLight ?? const Color(0xFFF5F5F5),
         body: ValueListenableBuilder(
           valueListenable: menuBox.listenable(),
           builder: (context, Box<MenuItem> box, _) {
@@ -71,8 +68,8 @@ class MenuPage extends StatelessWidget {
 
             return TabBarView(
               children: [
-                _buildGrid(foodItems),
-                _buildGrid(beverageItems),
+                _buildGrid(context, foodItems),
+                _buildGrid(context, beverageItems),
               ],
             );
           },
@@ -81,7 +78,7 @@ class MenuPage extends StatelessWidget {
     );
   }
 
-  Widget _buildGrid(List<MenuItem> items) {
+  Widget _buildGrid(BuildContext context, List<MenuItem> items) {
     if (items.isEmpty) {
       return const Center(child: Text("No items in this category"));
     }
@@ -97,16 +94,26 @@ class MenuPage extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (context, index) {
         final menuItem = items[index];
-        return MenuItemCard(
-          menuItem: menuItem,
-          onAddToCart: () {
-            final cartBox = Hive.box<CartItem>('cartBox');
-            cartBox.add(CartItem(menuItem: menuItem, quantity: 1));
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("${menuItem.title} added to cart")),
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ItemDetailsPage(item: menuItem),
+              ),
             );
           },
+          child: MenuItemCard(
+            menuItem: menuItem,
+            onAddToCart: () {
+              final cartBox = Hive.box<CartItem>('cartBox');
+              cartBox.add(CartItem(menuItem: menuItem, quantity: 1));
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("${menuItem.title} added to cart")),
+              );
+            },
+          ),
         );
       },
     );

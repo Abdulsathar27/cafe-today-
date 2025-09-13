@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:cafebooking/models/menu_item.dart';
 import 'package:cafebooking/constants/app_colors.dart';
+import 'item_details_page.dart';
 import 'package:cafebooking/screens/dashboard/widgets/app_drawer.dart';
 
 class AddItemsPage extends StatefulWidget {
@@ -18,70 +20,76 @@ class _AddItemsPageState extends State<AddItemsPage> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
-
-  String _selectedCategory = "Food"; // default category
+  String _selectedCategory = "Food";
   File? _selectedImage;
-  bool _isPickingImage = false; // ✅ lock for picker
 
-  /// Pick image from gallery
+  /// Pick image using File Picker
   Future<void> _pickImage() async {
-    if (_isPickingImage) return;
-    _isPickingImage = true;
-
     try {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 75,
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
       );
 
-      if (pickedFile != null) {
-        setState(() {
-          _selectedImage = File(pickedFile.path);
-        });
+      if (result != null && result.files.single.path != null) {
+        setState(() => _selectedImage = File(result.files.single.path!));
       }
     } catch (e) {
-      debugPrint("Image pick error: $e");
-    } finally {
-      _isPickingImage = false;
+      debugPrint("❌ File pick error: $e");
+      // fallback handled later
     }
   }
 
-  /// Save new item to Hive
+  /// Save picked image to local app storage
+  Future<String> _saveImageToLocal(File imageFile) async {
+    final appDir = await getApplicationDocumentsDirectory();
+    final fileName =
+        "${DateTime.now().millisecondsSinceEpoch}_${imageFile.path.split('/').last}";
+    final savedImage = File("${appDir.path}/$fileName");
+
+    await imageFile.copy(savedImage.path);
+    return savedImage.path;
+  }
+
+  /// Save item to Hive
   Future<void> _saveItem() async {
     if (!_formKey.currentState!.validate()) return;
 
-    try {
-      final menuBox = Hive.box<MenuItem>('menuBox');
+    String imagePath = "assets/Images/Cafe.png"; // ✅ default asset
 
-      final newItem = MenuItem(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        title: _titleController.text.trim(),
-        description: _descriptionController.text.trim(),
-        price: int.parse(_priceController.text.trim()),
-        imageUrl: _selectedImage?.path ?? "", // ✅ empty string if no image
-        category: _selectedCategory,
-      );
-
-      await menuBox.add(newItem);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Item added successfully")),
-      );
-
-      Navigator.pop(context);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error saving item: $e")),
-      );
+    if (_selectedImage != null) {
+      try {
+        imagePath = await _saveImageToLocal(_selectedImage!);
+      } catch (e) {
+        debugPrint("❌ Failed to save picked image: $e");
+        imagePath = "assets/Images/Cafe.png";
+      }
     }
+
+    final menuBox = Hive.box<MenuItem>('menuBox');
+
+    final newItem = MenuItem(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      title: _titleController.text.trim(),
+      description: _descriptionController.text.trim(),
+      price: int.parse(_priceController.text.trim()),
+      imageUrl: imagePath,
+      category: _selectedCategory,
+    );
+
+    await menuBox.add(newItem);
+
+    if (!mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => ItemDetailsPage(item: newItem)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add New Item"),
+        title: const Text("Add Item"),
         backgroundColor: AppColors.primary,
       ),
       drawer: const AppDrawer(),
@@ -89,125 +97,100 @@ class _AddItemsPageState extends State<AddItemsPage> {
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Item name
-                TextFormField(
-                  controller: _titleController,
-                  decoration: const InputDecoration(
-                    labelText: "Item Name",
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) =>
-                      value == null || value.isEmpty ? "Enter item name" : null,
+          child: ListView(
+            children: [
+              // Title
+              TextFormField(
+                controller: _titleController,
+                decoration: const InputDecoration(
+                  labelText: "Title",
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 16),
+                validator: (v) =>
+                    v == null || v.isEmpty ? "Enter item name" : null,
+              ),
+              const SizedBox(height: 12),
 
-                // Description
-                TextFormField(
-                  controller: _descriptionController,
-                  maxLines: 2,
-                  decoration: const InputDecoration(
-                    labelText: "Description",
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) => value == null || value.isEmpty
-                      ? "Enter description"
-                      : null,
+              // Description
+              TextFormField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(
+                  labelText: "Description",
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 16),
+              ),
+              const SizedBox(height: 12),
 
-                // Price
-                TextFormField(
-                  controller: _priceController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: "Price (₹)",
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Enter price";
-                    }
-                    if (int.tryParse(value) == null) {
-                      return "Enter valid number";
-                    }
-                    return null;
-                  },
+              // Price
+              TextFormField(
+                controller: _priceController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: "Price (₹)",
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 16),
+                validator: (v) => v == null || int.tryParse(v) == null
+                    ? "Enter valid price"
+                    : null,
+              ),
+              const SizedBox(height: 12),
 
-                // Image picker
-                Row(
-                  children: [
-                    _selectedImage == null
-                        ? Container(
-                            width: 80,
-                            height: 80,
-                            color: Colors.grey[300],
-                            child: const Icon(Icons.image, size: 40),
-                          )
-                        : Image.file(
-                            _selectedImage!,
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                          ),
-                    const SizedBox(width: 12),
-                    ElevatedButton.icon(
-                      onPressed: _isPickingImage ? null : _pickImage,
-                      icon: const Icon(Icons.photo_library),
+              // Image picker row (fixed with Expanded)
+              Row(
+                children: [
+                  _selectedImage == null
+                      ? Image.asset(
+                          "assets/Images/Cafe.png",
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.file(
+                          _selectedImage!,
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                        ),
+                  const SizedBox(width: 10),
+                  Expanded( // ✅ prevents overflow
+                    child: ElevatedButton.icon(
+                      onPressed: _pickImage,
+                      icon: const Icon(Icons.folder_open),
                       label: const Text("Pick Image"),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-
-                // Category dropdown
-                DropdownButtonFormField<String>(
-                  value: _selectedCategory,
-                  decoration: const InputDecoration(
-                    labelText: "Category",
-                    border: OutlineInputBorder(),
                   ),
-                  items: const [
-                    DropdownMenuItem(value: "Food", child: Text("Food")),
-                    DropdownMenuItem(value: "Beverage", child: Text("Beverage")),
-                  ],
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() => _selectedCategory = value);
-                    }
-                  },
-                ),
-                const SizedBox(height: 24),
+                ],
+              ),
+              const SizedBox(height: 12),
 
-                // Save button
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _saveItem,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text(
-                      "Save Item",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textWhite,
-                      ),
-                    ),
-                  ),
+              // Category dropdown
+              DropdownButtonFormField<String>(
+                value: _selectedCategory,
+                decoration: const InputDecoration(
+                  labelText: "Category",
+                  border: OutlineInputBorder(),
                 ),
-              ],
-            ),
+                items: const [
+                  DropdownMenuItem(value: "Food", child: Text("Food")),
+                  DropdownMenuItem(value: "Beverage", child: Text("Beverage")),
+                ],
+                onChanged: (v) =>
+                    setState(() => _selectedCategory = v ?? "Food"),
+              ),
+              const SizedBox(height: 20),
+
+              // Save button
+              ElevatedButton(
+                onPressed: _saveItem,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                ),
+                child: const Text(
+                  "Save Item",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
           ),
         ),
       ),

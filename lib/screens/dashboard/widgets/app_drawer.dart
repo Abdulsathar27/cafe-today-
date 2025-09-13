@@ -1,6 +1,5 @@
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/screens/dashboard/add_items/add_items_page.dart';
-import 'package:cafebooking/screens/dashboard/customers/customers_page.dart';
 import 'package:cafebooking/screens/dashboard/dashboard_pages.dart';
 import 'package:cafebooking/screens/dashboard/od_management/admin_orders_page.dart';
 import 'package:flutter/material.dart';

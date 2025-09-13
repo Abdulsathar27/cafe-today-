@@ -19,10 +19,10 @@ class MenuItemAdapter extends TypeAdapter<MenuItem> {
     return MenuItem(
       id: fields[0] as String,
       title: fields[1] as String,
-      description: fields[2] as String,
-      imageUrl: fields[3] as String,
-      price: fields[4] as int,
-      category: fields[5] as String?,
+      description: fields[2] as String?,
+      price: fields[3] as int,
+      imageUrl: fields[4] as String?,
+      category: fields[5] as String,
     );
   }
 
@@ -37,9 +37,9 @@ class MenuItemAdapter extends TypeAdapter<MenuItem> {
       ..writeByte(2)
       ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.imageUrl)
-      ..writeByte(4)
       ..write(obj.price)
+      ..writeByte(4)
+      ..write(obj.imageUrl)
       ..writeByte(5)
       ..write(obj.category);
   }
