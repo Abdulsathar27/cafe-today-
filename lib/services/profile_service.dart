@@ -4,7 +4,7 @@ import 'package:cafebooking/models/profile_model.dart';
 class ProfileService {
   static const String profileBoxName = 'profileBox';
 
-  /// Returns profile data as Map, or null if no profile exists
+
   static Future<Map<String, String>?> readCombinedUser() async {
     if (Hive.isBoxOpen(profileBoxName)) {
       final box = Hive.box<Profile>(profileBoxName);
@@ -19,10 +19,10 @@ class ProfileService {
         };
       }
     }
-    return null; // 🚨 instead of returning empty strings
+    return null; 
   }
 
-  /// Saves or updates the user profile
+  
   static Future<void> saveUser({
     required String name,
     required String email,
@@ -33,7 +33,7 @@ class ProfileService {
     if (Hive.isBoxOpen(profileBoxName)) {
       final box = Hive.box<Profile>(profileBoxName);
       if (box.isEmpty) {
-        // New profile
+        
         final profile = Profile(
           name: name,
           email: email,
@@ -44,7 +44,7 @@ class ProfileService {
         );
         await box.add(profile);
       } else {
-        // Update existing profile
+        
         final key = box.keyAt(0);
         final profile = box.get(key);
         if (profile != null) {

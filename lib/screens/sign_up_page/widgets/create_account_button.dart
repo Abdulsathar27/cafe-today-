@@ -43,7 +43,7 @@ class CreateAccountButton extends StatelessWidget {
           return;
         }
 
-        // ✅ Save user profile in Hive
+      
         await ProfileService.saveUser(
           name: name,
           email: email,
@@ -54,7 +54,7 @@ class CreateAccountButton extends StatelessWidget {
 
         if (!context.mounted) return;
 
-        // ✅ Show success message
+       
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
              backgroundColor: AppColors.buttonPrimary,
@@ -67,7 +67,7 @@ class CreateAccountButton extends StatelessWidget {
           ),
         );
 
-        // ✅ Navigate to Login Page (not Menu/Home directly)
+       
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => const CafeLoginPage()),

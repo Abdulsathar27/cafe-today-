@@ -6,7 +6,7 @@ class UserService {
   static Future<String> getUserName() async {
     String name = '';
 
-    // Try Hive profileBox
+ 
     try {
       if (Hive.isBoxOpen('profileBox')) {
         final box = Hive.box<Profile>('profileBox');
@@ -21,7 +21,6 @@ class UserService {
       }
     } catch (_) {}
 
-    // Try Hive userBox
     try {
       if (Hive.isBoxOpen('userBox')) {
         final u = Hive.box('userBox');
@@ -32,7 +31,7 @@ class UserService {
       }
     } catch (_) {}
 
-    // Try SharedPreferences
+
     try {
       final sp = await SharedPreferences.getInstance();
       final n = sp.getString('name') ?? '';

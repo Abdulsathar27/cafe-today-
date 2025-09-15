@@ -17,7 +17,7 @@ class MenuHelper {
   }
 
   static List<MenuItem> filterByTab(List<MenuItem> items, int selectedIndex) {
-    if (selectedIndex == 0) return items; // "All"
+    if (selectedIndex == 0) return items; 
     final wanted = tabs[selectedIndex].toLowerCase();
     return items.where((it) => detectCategory(it).toLowerCase() == wanted).toList();
   }

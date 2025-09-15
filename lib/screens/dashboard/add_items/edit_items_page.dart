@@ -5,23 +5,38 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:cafebooking/models/menu_item.dart';
 import 'package:cafebooking/constants/app_colors.dart';
-import 'item_details_page.dart';
+import 'package:cafebooking/screens/dashboard/add_items/item_details_page.dart';
 import 'package:cafebooking/screens/dashboard/widgets/app_drawer.dart';
 
-class AddItemsPage extends StatefulWidget {
-  const AddItemsPage({super.key});
+class EditItemPage extends StatefulWidget {
+  final MenuItem existingItem;
+
+  const EditItemPage({super.key, required this.existingItem});
 
   @override
-  State<AddItemsPage> createState() => _AddItemsPageState();
+  State<EditItemPage> createState() => _EditItemPageState();
 }
 
-class _AddItemsPageState extends State<AddItemsPage> {
+class _EditItemPageState extends State<EditItemPage> {
   final _formKey = GlobalKey<FormState>();
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _priceController = TextEditingController();
-  String _selectedCategory = "Food";
+  late TextEditingController _titleController;
+  late TextEditingController _descriptionController;
+  late TextEditingController _priceController;
+  late String _selectedCategory;
   File? _selectedImage;
+  String? _savedImagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.existingItem.title);
+    _descriptionController =
+        TextEditingController(text: widget.existingItem.description ?? "");
+    _priceController =
+        TextEditingController(text: widget.existingItem.price.toString());
+    _selectedCategory = widget.existingItem.category;
+    _savedImagePath = widget.existingItem.imageUrl;
+  }
 
 
   Future<void> _pickImage() async {
@@ -29,13 +44,11 @@ class _AddItemsPageState extends State<AddItemsPage> {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.image,
       );
-
       if (result != null && result.files.single.path != null) {
         setState(() => _selectedImage = File(result.files.single.path!));
       }
     } catch (e) {
       debugPrint(" File pick error: $e");
-      
     }
   }
 
@@ -50,25 +63,24 @@ class _AddItemsPageState extends State<AddItemsPage> {
     return savedImage.path;
   }
 
-  
-  Future<void> _saveItem() async {
+ 
+  Future<void> _updateItem() async {
     if (!_formKey.currentState!.validate()) return;
 
-    String imagePath = "assets/Images/Cafe.png"; 
+    String imagePath = _savedImagePath ?? "assets/Images/Cafe.png";
 
     if (_selectedImage != null) {
       try {
         imagePath = await _saveImageToLocal(_selectedImage!);
       } catch (e) {
         debugPrint(" Failed to save picked image: $e");
-        imagePath = "assets/Images/Cafe.png";
       }
     }
 
     final menuBox = Hive.box<MenuItem>('menuBox');
 
-    final newItem = MenuItem(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+    final updatedItem = MenuItem(
+      id: widget.existingItem.id,
       title: _titleController.text.trim(),
       description: _descriptionController.text.trim(),
       price: int.parse(_priceController.text.trim()),
@@ -76,12 +88,19 @@ class _AddItemsPageState extends State<AddItemsPage> {
       category: _selectedCategory,
     );
 
-    await menuBox.add(newItem);
+    final key = menuBox.keys.firstWhere(
+      (k) => menuBox.get(k)?.id == widget.existingItem.id,
+      orElse: () => null,
+    );
+
+    if (key != null) {
+      await menuBox.put(key, updatedItem);
+    }
 
     if (!mounted) return;
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => ItemDetailsPage(item: newItem)),
+      MaterialPageRoute(builder: (_) => ItemDetailsPage(item: updatedItem)),
     );
   }
 
@@ -89,7 +108,7 @@ class _AddItemsPageState extends State<AddItemsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Item"),
+        title: const Text("Edit Item"),
         backgroundColor: AppColors.primary,
       ),
       drawer: const AppDrawer(),
@@ -121,7 +140,7 @@ class _AddItemsPageState extends State<AddItemsPage> {
               ),
               const SizedBox(height: 12),
 
-              
+             
               TextFormField(
                 controller: _priceController,
                 keyboardType: TextInputType.number,
@@ -138,32 +157,33 @@ class _AddItemsPageState extends State<AddItemsPage> {
               
               Row(
                 children: [
-                  _selectedImage == null
-                      ? Image.asset(
-                          "assets/Images/Cafe.png",
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.file(
-                          _selectedImage!,
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.cover,
-                        ),
+                  if (_selectedImage != null)
+                    Image.file(_selectedImage!,
+                        width: 80, height: 80, fit: BoxFit.cover)
+                  else if (_savedImagePath != null &&
+                      _savedImagePath!.startsWith("/"))
+                    Image.file(File(_savedImagePath!),
+                        width: 80, height: 80, fit: BoxFit.cover)
+                  else if (_savedImagePath != null &&
+                      _savedImagePath!.startsWith("assets/"))
+                    Image.asset(_savedImagePath!,
+                        width: 80, height: 80, fit: BoxFit.cover)
+                  else
+                    Image.asset("assets/Images/Cafe.png",
+                        width: 80, height: 80, fit: BoxFit.cover),
                   const SizedBox(width: 10),
-                  Expanded( 
+                  Expanded(
                     child: ElevatedButton.icon(
                       onPressed: _pickImage,
                       icon: const Icon(Icons.folder_open),
-                      label: const Text("Pick Image"),
+                      label: const Text("Change Image"),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
 
-           
+              
               DropdownButtonFormField<String>(
                 value: _selectedCategory,
                 decoration: const InputDecoration(
@@ -179,14 +199,14 @@ class _AddItemsPageState extends State<AddItemsPage> {
               ),
               const SizedBox(height: 20),
 
-            
+              
               ElevatedButton(
-                onPressed: _saveItem,
+                onPressed: _updateItem,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                 ),
                 child: const Text(
-                  "Save Item",
+                  "Update Item",
                   style: TextStyle(color: Colors.white),
                 ),
               ),

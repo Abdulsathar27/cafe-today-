@@ -13,11 +13,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // ✅ Initialize Hive
   await Hive.initFlutter();
 
-  // ✅ Register adapters (each model must have a unique typeId)
   Hive.registerAdapter(MenuItemAdapter());
   Hive.registerAdapter(CartItemAdapter());
   Hive.registerAdapter(AddressAdapter());
@@ -26,7 +23,6 @@ Future<void> main() async {
   Hive.registerAdapter(OrderAdapter());
   Hive.registerAdapter(CafeOrderAdapter());
 
-  // ✅ Open Hive boxes safely
   await _openHiveBox<MenuItem>('menuBox');
   await _openHiveBox<CartItem>('cartBox');
   await _openHiveBox<Address>('addressBox');
@@ -37,16 +33,16 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-/// Helper: Opens a Hive box safely without crashing app
+
 Future<void> _openHiveBox<T>(String name) async {
   try {
     await Hive.openBox<T>(name);
   } catch (e) {
-    debugPrint("⚠️ Error opening $name: $e → deleting and recreating");
+    debugPrint(" Error opening $name: $e → deleting and recreating");
     try {
       await Hive.deleteBoxFromDisk(name);
     } catch (deleteError) {
-      debugPrint("⚠️ Could not delete $name: $deleteError");
+      debugPrint(" Could not delete $name: $deleteError");
     }
     await Hive.openBox<T>(name);
   }

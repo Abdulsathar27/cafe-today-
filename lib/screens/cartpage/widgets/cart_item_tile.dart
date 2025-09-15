@@ -17,12 +17,15 @@ class CartItemTile extends StatelessWidget {
     required this.onDecrease,
   });
 
+  /// Confirm before deleting item
   Future<void> _confirmDelete(BuildContext context) async {
     final result = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text("Remove Item"),
-        content: Text("Are you sure you want to remove ${cartItem.menuItem.title}?"),
+        content: Text(
+          "Are you sure you want to remove ${cartItem.menuItem.title}?",
+        ),
         actions: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -53,44 +56,81 @@ class CartItemTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final String imageUrl = cartItem.menuItem.imageUrl ?? "";
 
+    // ✅ Handle different image sources (asset, file, network)
     ImageProvider imageProvider;
     if (imageUrl.isEmpty) {
-      imageProvider = const AssetImage("assets/images/placeholder.png");
+      imageProvider = const AssetImage("assets/Images/Cafe.png");
     } else if (imageUrl.startsWith("/")) {
       imageProvider = FileImage(File(imageUrl));
+    } else if (imageUrl.startsWith("assets/")) {
+      imageProvider = AssetImage(imageUrl);
     } else {
       imageProvider = NetworkImage(imageUrl);
     }
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      child: ListTile(
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Image(
-            image: imageProvider,
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
-          ),
-        ),
-        title: Text(cartItem.menuItem.title),
-        subtitle: Text("₹${cartItem.menuItem.price} x ${cartItem.quantity}"),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
           children: [
-            IconButton(
-              icon: const Icon(Icons.remove),
-              onPressed: onDecrease,
+            /// ✅ Product Image
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image(
+                image: imageProvider,
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+              ),
             ),
-            Text(cartItem.quantity.toString()),
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: onIncrease,
+
+            const SizedBox(width: 12),
+
+            /// ✅ Title + Price
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    cartItem.menuItem.title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "₹${cartItem.menuItem.price}",
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () => _confirmDelete(context),
+
+            /// ✅ Quantity Controls + Delete
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove_circle_outline),
+                  onPressed: onDecrease,
+                ),
+                Text(
+                  cartItem.quantity.toString(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add_circle_outline),
+                  onPressed: onIncrease,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: () => _confirmDelete(context),
+                ),
+              ],
             ),
           ],
         ),

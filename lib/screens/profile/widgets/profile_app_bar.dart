@@ -16,12 +16,11 @@ class ProfileAppBar extends StatelessWidget {
         content: const Text("Are you sure you want to log out?"),
         actions: [
           ElevatedButton(
-            style:ElevatedButton.styleFrom(
+            style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.badgeText,
               foregroundColor: AppColors.textWhite,
-
             ),
-            onPressed: () => Navigator.pop(ctx, false), 
+            onPressed: () => Navigator.pop(ctx, false),
             child: const Text("No"),
           ),
           ElevatedButton(
@@ -29,7 +28,7 @@ class ProfileAppBar extends StatelessWidget {
               backgroundColor: AppColors.logoutColor,
               foregroundColor: AppColors.textWhite,
             ),
-            onPressed: () => Navigator.pop(ctx, true), 
+            onPressed: () => Navigator.pop(ctx, true),
             child: const Text("Yes"),
           ),
         ],
@@ -37,7 +36,7 @@ class ProfileAppBar extends StatelessWidget {
     );
 
     if (result == true) {
-      // ✅ If confirmed, go to login page
+      
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const CafeLoginPage()),
@@ -53,10 +52,13 @@ class ProfileAppBar extends StatelessWidget {
         children: [
           IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const MenuPage()),
-            ),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const MenuPage()),
+                (route) => false, 
+              );
+            },
           ),
           const SizedBox(width: 4),
           const Expanded(

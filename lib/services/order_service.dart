@@ -7,7 +7,7 @@ import 'package:cafebooking/models/order_item.dart';
 class OrderService {
   final Box<Order> _orderBox = Hive.box<Order>('ordersBox');
 
-  /// Customer places an order
+
   Future<void> placeOrder(List<CartItem> cartItems) async {
     int total = 0;
 
@@ -19,7 +19,7 @@ class OrderService {
         title: c.menuItem.title,
         price: price,
         quantity: c.quantity,
-        imageUrl: c.menuItem.imageUrl ?? "", // ✅ safe fallback
+        imageUrl: c.menuItem.imageUrl ?? "",
       );
     }).toList();
 
@@ -34,7 +34,7 @@ class OrderService {
     await _orderBox.add(newOrder);
   }
 
-  /// Admin updates order status (works even if Order is immutable)
+ 
   Future<void> updateStatus(int index, String status) async {
     final order = _orderBox.getAt(index);
     if (order != null) {
@@ -49,17 +49,17 @@ class OrderService {
     }
   }
 
-  /// Get all orders
+  
   List<Order> getAllOrders() {
     return _orderBox.values.toList();
   }
 
-  /// Stream orders for admin (real-time updates)
+  
   ValueListenable<Box<Order>> listenToOrders() {
     return _orderBox.listenable();
   }
 
-  /// Clear all orders (admin use only)
+  
   Future<void> clearAllOrders() async {
     await _orderBox.clear();
   }

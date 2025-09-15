@@ -16,9 +16,9 @@ class _SignUpCardState extends State<SignUpCard> {
   final _fullNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _passwordController = TextEditingController(); // ✅ new
+  final _passwordController = TextEditingController(); 
 
-  String _selectedRole = "customer"; // default
+  String _selectedRole = "customer"; 
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +100,7 @@ class _SignUpCardState extends State<SignUpCard> {
               fullNameController: _fullNameController,
               emailController: _emailController,
               phoneController: _phoneController,
-              passwordController: _passwordController, // ✅ pass
+              passwordController: _passwordController, 
               selectedRole: _selectedRole,
             ),
             const SizedBox(height: 12),

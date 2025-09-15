@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart'; // ✅ for date formatting
+import 'package:intl/intl.dart';
 import 'package:cafebooking/models/order_model.dart';
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/screens/dashboard/widgets/app_drawer.dart';
@@ -14,7 +14,7 @@ class AdminOrdersPage extends StatelessWidget {
 
     if (order != null) {
       order.status = status;
-      await box.put(key, order); // ✅ update by key
+      await box.put(key, order);
     }
   }
 
@@ -30,11 +30,11 @@ class AdminOrdersPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Orders Received"),
         backgroundColor: AppColors.primary,
-        elevation: 2, // ✅ slight shadow for separation
+        elevation: 2, 
       ),
       drawer: const AppDrawer(),
 
-      // ✅ Light grey background (no fade effect)
+      
       backgroundColor: const Color(0xFFF2F2F2),
 
       body: SafeArea(
@@ -45,7 +45,7 @@ class AdminOrdersPage extends StatelessWidget {
               return const Center(child: Text("No orders yet"));
             }
 
-            // ✅ Get all orders with keys & sort latest first
+            
             final orders = box.toMap().entries.toList()
               ..sort((a, b) => b.value.date.compareTo(a.value.date));
 
@@ -58,7 +58,7 @@ class AdminOrdersPage extends StatelessWidget {
                 final order = entry.value;
 
                 return Card(
-                  elevation: 5, // ✅ stronger shadow
+                  elevation: 5,
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -69,7 +69,7 @@ class AdminOrdersPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Order ID + Status
+                       
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -101,12 +101,12 @@ class AdminOrdersPage extends StatelessWidget {
 
                         const SizedBox(height: 8),
 
-                        // Items
+                   
                         Text(
                           "Items: ${order.items.map((i) => "${i.title} x${i.quantity}").join(", ")}",
                         ),
 
-                        // Total
+                        
                         Text(
                           "Total: ₹${order.total}",
                           style: const TextStyle(
@@ -114,7 +114,7 @@ class AdminOrdersPage extends StatelessWidget {
                           ),
                         ),
 
-                        // Date
+                       
                         Text(
                           "Date: ${_formatDate(order.date)}",
                           style: TextStyle(

@@ -18,7 +18,6 @@ class SignInButton extends StatelessWidget {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
-    // ✅ Simple guidance only
     if (email.isEmpty && password.isEmpty) {
       _showSnack(context, "Please enter your email and password.");
       return;
@@ -44,14 +43,16 @@ class SignInButton extends StatelessWidget {
     if (email == savedEmail && password == savedPassword) {
       if (!context.mounted) return;
       if (role == "admin") {
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (_) => const DashboardPage()),
+          (route) => false,
         );
       } else {
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (_) => const MenuPage()),
+          (route) => false, 
         );
       }
     } else {
@@ -66,9 +67,7 @@ class SignInButton extends StatelessWidget {
         backgroundColor: AppColors.buttonPrimary,
         behavior: SnackBarBehavior.floating,
         margin: const EdgeInsets.only(bottom: 80, left: 16, right: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         content: Text(message),
         duration: const Duration(seconds: 3),
       ),

@@ -4,7 +4,7 @@ import 'package:cafebooking/screens/menu/widgets/menu_item_card.dart';
 
 class MenuGrid extends StatelessWidget {
   final List<MenuItem?> menuItems; 
-  final void Function(MenuItem) onAddToCart; // ✅ new callback
+  final void Function(MenuItem) onAddToCart; 
 
   const MenuGrid({
     super.key,
@@ -29,7 +29,7 @@ class MenuGrid extends StatelessWidget {
         final item = validItems[index];
         return MenuItemCard(
           menuItem: item,
-          onAddToCart: () => onAddToCart(item), // ✅ pass callback
+          onAddToCart: () => onAddToCart(item), 
         );
       },
     );

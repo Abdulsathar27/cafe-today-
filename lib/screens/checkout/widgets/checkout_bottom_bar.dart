@@ -25,7 +25,7 @@ class CheckoutBottomBar extends StatelessWidget {
           title: menu.title,
           price: price,
           quantity: qty,
-          imageUrl: menu.imageUrl ?? "", // ✅ safe fallback
+          imageUrl: menu.imageUrl ?? "", 
         ));
       }
 
@@ -73,7 +73,7 @@ class CheckoutBottomBar extends StatelessWidget {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1), // ✅ softer shadow
+            color: Colors.black.withOpacity(0.1), 
             blurRadius: 6,
             offset: const Offset(0, -2),
           ),

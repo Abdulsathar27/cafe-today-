@@ -1,5 +1,5 @@
-import 'dart:io';
 import 'package:cafebooking/screens/cartpage/cart_page.dart';
+import 'package:cafebooking/screens/menu/widgets/customer_item_details_page.dart';
 import 'package:cafebooking/screens/profile/profilepage.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -7,7 +7,6 @@ import 'package:cafebooking/models/menu_item.dart';
 import 'package:cafebooking/models/cart_item.dart';
 import 'package:cafebooking/constants/app_colors.dart';
 import 'package:cafebooking/screens/menu/widgets/menu_item_card.dart';
-import 'package:cafebooking/screens/dashboard/add_items/item_details_page.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -25,13 +24,13 @@ class MenuPage extends StatelessWidget {
           bottom: const TabBar(
             indicatorColor: Colors.white,
             tabs: [
-              Tab(text: "Food"),
-              Tab(text: "Beverages"),
+              Tab(text: "🍔 Food",),
+              Tab(text: "🥤 Beverages"),
             ],
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.person),
+              icon: const Icon(Icons.person, color: AppColors.buttonText),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -40,7 +39,10 @@ class MenuPage extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.shopping_cart),
+              icon: const Icon(
+                Icons.shopping_bag_outlined,
+                color: AppColors.buttonText,
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -50,8 +52,9 @@ class MenuPage extends StatelessWidget {
             ),
           ],
         ),
-        backgroundColor:
-            AppColors.backgroundLight ?? const Color(0xFFF5F5F5),
+        backgroundColor: AppColors.backgroundLight ?? const Color(0xFFF5F5F5),
+
+        
         body: ValueListenableBuilder(
           valueListenable: menuBox.listenable(),
           builder: (context, Box<MenuItem> box, _) {
@@ -61,10 +64,12 @@ class MenuPage extends StatelessWidget {
 
             final allItems = box.values.toList();
 
-            final foodItems =
-                allItems.where((item) => item.category == "Food").toList();
-            final beverageItems =
-                allItems.where((item) => item.category == "Beverage").toList();
+            final foodItems = allItems
+                .where((item) => item.category == "Food")
+                .toList();
+            final beverageItems = allItems
+                .where((item) => item.category == "Beverage")
+                .toList();
 
             return TabBarView(
               children: [
@@ -95,11 +100,12 @@ class MenuPage extends StatelessWidget {
       itemBuilder: (context, index) {
         final menuItem = items[index];
         return GestureDetector(
-          onTap: () {
-            Navigator.push(
+          onTap: () async {
+          
+            await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => ItemDetailsPage(item: menuItem),
+                builder: (_) => CustomerItemDetailsPage(item: menuItem),
               ),
             );
           },
@@ -108,9 +114,26 @@ class MenuPage extends StatelessWidget {
             onAddToCart: () {
               final cartBox = Hive.box<CartItem>('cartBox');
               cartBox.add(CartItem(menuItem: menuItem, quantity: 1));
-
+              
+              ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("${menuItem.title} added to cart")),
+                SnackBar(
+                  backgroundColor: AppColors.buttonPrimary,
+                  behavior: SnackBarBehavior.floating,
+                  margin: const EdgeInsets.only(
+                    bottom: 80,
+                    left: 16,
+                    right: 16,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  content: Text(
+                    "${menuItem.title} added to cart",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  duration: const Duration(seconds: 2),
+                ),
               );
             },
           ),

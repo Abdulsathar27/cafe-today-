@@ -29,7 +29,7 @@ class _SplashPageState extends State<SplashPage> {
   Future<void> _navigate() async {
     if (!mounted) return;
 
-    // ✅ Always redirect to login when app restarts
+    
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (_) => const CafeLoginPage()),

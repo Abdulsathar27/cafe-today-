@@ -68,7 +68,7 @@ class _AccountInfoCardState extends State<AccountInfoCard> {
                   return;
                 }
 
-                // ✅ Safely read current user
+               
                 final currentUser = await ProfileService.readCombinedUser();
                 final currentRole = currentUser?['role'] ?? 'customer';
                 final currentPassword = currentUser?['password'] ?? '';
@@ -113,7 +113,7 @@ class _AccountInfoCardState extends State<AccountInfoCard> {
     return FutureBuilder<Map<String, String>?>(
       future: ProfileService.readCombinedUser(),
       builder: (context, snap) {
-        // ✅ Provide safe defaults if null
+      
         final data =
             snap.data ??
             {

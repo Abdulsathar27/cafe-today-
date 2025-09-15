@@ -19,13 +19,16 @@ class MenuItemCard extends StatelessWidget {
     final String imageUrl = menuItem.imageUrl ?? "";
     ImageProvider imageProvider;
 
-    if (imageUrl.isEmpty) {
-      imageProvider = const AssetImage("assets/images/placeholder.png");
-    } else if (imageUrl.startsWith("/")) {
-      imageProvider = FileImage(File(imageUrl));
-    } else {
-      imageProvider = NetworkImage(imageUrl);
-    }
+   if (imageUrl.isEmpty) {
+  imageProvider = const AssetImage("assets/Images/Cafe.png");
+} else if (imageUrl.startsWith("/")) {
+  imageProvider = FileImage(File(imageUrl));
+} else if (imageUrl.startsWith("assets/")) {
+  imageProvider = AssetImage(imageUrl); // ✅ handle assets
+} else {
+  imageProvider = NetworkImage(imageUrl);
+}
+
 
     return Card(
       elevation: 3,
@@ -52,7 +55,7 @@ class MenuItemCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ✅ Title (always required)
+                
                 Text(
                   menuItem.title,
                   style: const TextStyle(
@@ -62,7 +65,7 @@ class MenuItemCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
 
-                // ✅ Description (nullable → fallback if empty)
+                
                 Text(
                   (menuItem.description?.isNotEmpty ?? false)
                       ? menuItem.description!
