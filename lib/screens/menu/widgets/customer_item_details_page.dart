@@ -71,7 +71,7 @@ class CustomerItemDetailsPage extends StatelessWidget {
             ),
             const SizedBox(height: 30),
 
-            // ✅ Add to Cart button
+           
             ElevatedButton.icon(
               onPressed: () {
                 final cartBox = Hive.box<CartItem>('cartBox');
@@ -94,7 +94,7 @@ class CustomerItemDetailsPage extends StatelessWidget {
                       "${item.title} added to cart",
                       style: const TextStyle(
                         color: Colors.white,
-                      ), // force text color
+                      ), 
                     ),
                     duration: const Duration(seconds: 2),
                   ),

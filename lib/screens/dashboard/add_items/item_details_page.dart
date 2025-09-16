@@ -21,7 +21,7 @@ class ItemDetailsPage extends StatelessWidget {
     this.profileImage,
   });
 
-  /// ✅ Delete item from Hive
+
   Future<void> _deleteItem(BuildContext context) async {
     final confirm = await showDialog<bool>(
       context: context,
@@ -85,7 +85,7 @@ class ItemDetailsPage extends StatelessWidget {
         title: Text(item.title),
         backgroundColor: AppColors.primary,
         actions: [
-          // ✅ Edit Icon
+       
           IconButton(
             icon: const Icon(Icons.edit, color: Colors.white),
             tooltip: "Edit Item",
@@ -99,7 +99,7 @@ class ItemDetailsPage extends StatelessWidget {
             },
           ),
 
-          // ✅ Delete Icon
+          
           IconButton(
             icon: const Icon(Icons.delete, color: Colors.white),
             tooltip: "Delete Item",

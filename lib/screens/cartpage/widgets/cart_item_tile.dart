@@ -17,7 +17,7 @@ class CartItemTile extends StatelessWidget {
     required this.onDecrease,
   });
 
-  /// Confirm before deleting item
+  
   Future<void> _confirmDelete(BuildContext context) async {
     final result = await showDialog<bool>(
       context: context,
@@ -56,7 +56,7 @@ class CartItemTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final String imageUrl = cartItem.menuItem.imageUrl ?? "";
 
-    // ✅ Handle different image sources (asset, file, network)
+ 
     ImageProvider imageProvider;
     if (imageUrl.isEmpty) {
       imageProvider = const AssetImage("assets/Images/Cafe.png");
@@ -74,7 +74,7 @@ class CartItemTile extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            /// ✅ Product Image
+           
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image(
@@ -87,7 +87,7 @@ class CartItemTile extends StatelessWidget {
 
             const SizedBox(width: 12),
 
-            /// ✅ Title + Price
+           
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,7 +111,7 @@ class CartItemTile extends StatelessWidget {
               ),
             ),
 
-            /// ✅ Quantity Controls + Delete
+            
             Row(
               children: [
                 IconButton(

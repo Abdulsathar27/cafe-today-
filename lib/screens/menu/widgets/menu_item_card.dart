@@ -15,7 +15,7 @@ class MenuItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Safe null handling for image
+    
     final String imageUrl = menuItem.imageUrl ?? "";
     ImageProvider imageProvider;
 
@@ -24,7 +24,7 @@ class MenuItemCard extends StatelessWidget {
 } else if (imageUrl.startsWith("/")) {
   imageProvider = FileImage(File(imageUrl));
 } else if (imageUrl.startsWith("assets/")) {
-  imageProvider = AssetImage(imageUrl); // ✅ handle assets
+  imageProvider = AssetImage(imageUrl); 
 } else {
   imageProvider = NetworkImage(imageUrl);
 }
@@ -49,7 +49,7 @@ class MenuItemCard extends StatelessWidget {
             ),
           ),
 
-          // Details
+          
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -76,7 +76,7 @@ class MenuItemCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
 
-                // ✅ Price + Add to Cart
+                
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

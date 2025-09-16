@@ -44,15 +44,15 @@ class AuthService {
   static Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_keyIsLoggedIn, false);
-    await prefs.remove(_keyRole); // remove stored role
+    await prefs.remove(_keyRole); 
   }
 
 
   static Future<Map<String, String>> getAdminInfo() async {
     final prefs = await SharedPreferences.getInstance();
 
-    final username = prefs.getString('admin_username') ?? "Cafe Admin";
-    final email = prefs.getString('admin_email') ?? "admin@cafe.com";
+    final username = prefs.getString('') ?? "Cafe Admin";
+    final email = prefs.getString('') ?? "admin@cafe.com";
 
     return {
       "name": username,
