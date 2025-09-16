@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'cafe_order.g.dart'; // generated file
+part 'cafe_order.g.dart'; 
 
 @HiveType(typeId: 6)
 class CafeOrder {
@@ -11,7 +11,7 @@ class CafeOrder {
   List<String> items;
 
   @HiveField(2)
-  String status; // pending, preparing, completed
+  String status; 
 
   CafeOrder({
     required this.id,

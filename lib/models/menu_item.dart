@@ -5,22 +5,22 @@ part 'menu_item.g.dart';
 @HiveType(typeId: 0)
 class MenuItem {
   @HiveField(0)
-  final String id; // always required
+  final String id; 
 
   @HiveField(1)
-  final String title; // always required
+  final String title; 
 
   @HiveField(2)
-  final String? description; // optional
+  final String? description; 
 
   @HiveField(3)
-  final int price; // always required
+  final int price; 
 
   @HiveField(4)
-  final String? imageUrl; // optional
+  final String? imageUrl; 
 
   @HiveField(5)
-  final String category; // always required
+  final String category; 
 
   MenuItem({
     required this.id,

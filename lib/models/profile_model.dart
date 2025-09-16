@@ -20,7 +20,7 @@ class Profile extends HiveObject {
   String role;
 
   @HiveField(5)
-  String password; // ✅ new
+  String password; 
 
   Profile({
     this.name = "",
