@@ -17,7 +17,7 @@ class CartService {
       existing.quantity += 1;
       existing.save(); 
     } else {
-      _box.add(CartItem(menuItem: item));
+      _box.add(CartItem(menuItem: item, customerUsername: ''));
     }
   }
 

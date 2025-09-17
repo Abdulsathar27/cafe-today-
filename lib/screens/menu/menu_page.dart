@@ -113,7 +113,7 @@ class MenuPage extends StatelessWidget {
             menuItem: menuItem,
             onAddToCart: () {
               final cartBox = Hive.box<CartItem>('cartBox');
-              cartBox.add(CartItem(menuItem: menuItem, quantity: 1));
+              cartBox.add(CartItem(menuItem: menuItem, quantity: 1, customerUsername: ''));
               
               ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(context).showSnackBar(

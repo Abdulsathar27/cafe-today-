@@ -75,7 +75,7 @@ class CustomerItemDetailsPage extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: () {
                 final cartBox = Hive.box<CartItem>('cartBox');
-                cartBox.add(CartItem(menuItem: item, quantity: 1));
+                cartBox.add(CartItem(menuItem: item, quantity: 1, customerUsername: ''));
 
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(

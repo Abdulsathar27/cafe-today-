@@ -1,38 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cafe_order.dart';
+part of 'customer_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class CafeOrderAdapter extends TypeAdapter<CafeOrder> {
+class CustomerModelAdapter extends TypeAdapter<CustomerModel> {
   @override
-  final int typeId = 6;
+  final int typeId = 8;
 
   @override
-  CafeOrder read(BinaryReader reader) {
+  CustomerModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CafeOrder(
-      customerUsername: fields[0] as String,
-      items: (fields[1] as List).cast<OrderItem>(),
-      date: fields[2] as DateTime,
+    return CustomerModel(
+      username: fields[0] as String,
+      email: fields[1] as String,
+      password: fields[2] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, CafeOrder obj) {
+  void write(BinaryWriter writer, CustomerModel obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.customerUsername)
+      ..write(obj.username)
       ..writeByte(1)
-      ..write(obj.items)
+      ..write(obj.email)
       ..writeByte(2)
-      ..write(obj.date);
+      ..write(obj.password);
   }
 
   @override
@@ -41,7 +41,7 @@ class CafeOrderAdapter extends TypeAdapter<CafeOrder> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CafeOrderAdapter &&
+      other is CustomerModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

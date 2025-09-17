@@ -39,7 +39,7 @@ class CartPage extends StatelessWidget {
                           index,
                           CartItem(
                             menuItem: cartItem.menuItem,
-                            quantity: cartItem.quantity + 1,
+                            quantity: cartItem.quantity + 1, customerUsername: '',
                           ),
                         );
                       },
@@ -49,7 +49,7 @@ class CartPage extends StatelessWidget {
                             index,
                             CartItem(
                               menuItem: cartItem.menuItem,
-                              quantity: cartItem.quantity - 1,
+                              quantity: cartItem.quantity - 1, customerUsername: '',
                             ),
                           );
                         } else {

@@ -17,18 +17,21 @@ class CartItemAdapter extends TypeAdapter<CartItem> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CartItem(
-      menuItem: fields[0] as MenuItem,
-      quantity: fields[1] as int,
+      customerUsername: fields[0] as String,
+      menuItem: fields[1] as MenuItem,
+      quantity: fields[2] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, CartItem obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.menuItem)
+      ..write(obj.customerUsername)
       ..writeByte(1)
+      ..write(obj.menuItem)
+      ..writeByte(2)
       ..write(obj.quantity);
   }
 

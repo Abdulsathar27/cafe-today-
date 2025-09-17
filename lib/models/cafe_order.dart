@@ -1,21 +1,22 @@
 import 'package:hive/hive.dart';
+import 'order_item.dart';
 
-part 'cafe_order.g.dart'; 
+part 'cafe_order.g.dart';
 
 @HiveType(typeId: 6)
-class CafeOrder {
+class CafeOrder extends HiveObject {
   @HiveField(0)
-  String id;
+  String customerUsername;
 
   @HiveField(1)
-  List<String> items;
+  List<OrderItem> items;
 
   @HiveField(2)
-  String status; 
+  DateTime date;
 
   CafeOrder({
-    required this.id,
+    required this.customerUsername,
     required this.items,
-    this.status = 'pending',
+    required this.date,
   });
 }
